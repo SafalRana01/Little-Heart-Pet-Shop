@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  .blog-detail-image {
+    width: 100%; 
+    max-width: 100%; 
+    height: auto; 
+    display: block;
+    margin-left: auto; 
+    margin-right: auto; 
+    object-fit: cover; 
+  }
+  .text-center {
+    text-align: center;
+  }
+  .blog-date {
+    font-size: 0.9rem;
+    color: gray;
+  }
+  .other-blog-image {
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover;
+  }
+  .other-blogs .col-md-6 {
+    padding: 15px; 
+  }
+  .card {
+    border: none; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+  }
+  .card-body {
+    padding: 15px; 
+    background-color: #f9f9f9; 
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+  }
+  .card-title {
+    font-size: 1.1rem; 
+    margin-bottom: 5px;
+    color: #333; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+  }
+  .blog-link {
+    color: #333; 
+    text-decoration: none; 
+  }
+  .blog-link:hover {
+    color: #555; 
+    text-decoration: none; 
+  }
+</style>
+<div class="container my-5">
+  <h2 class="text-center text-danger fw-bold mb-5">{{ blog.title }}</h2>
+
+  <div class="row">
+    <div class="col-md-12">
+      {% if blog.image %}
+        <img src="{{ blog.image.url }}" class="blog-detail-image mb-3" alt="{{ blog.title }}">
+      {% else %}
+        <img src="{% static 'images/default-blog.png' %}" class="blog-detail-image mb-3" alt="{{ blog.title }}">
+      {% endif %}
+      <h5 class="fw-bold">{{ blog.title }}</h5>
+      <p class="blog-date">{{ blog.created_at|date:"F d, Y" }}</p>
+      <div>{{ blog.content|safe }}</div>
+      <br>
+      <p><strong><i>Author: Little Heart Nepal</strong> {{ blog.author.username }}</i></p>
+    </div>
+  </div>
+
+  <!-- Other Blogs Section -->
+  {% if other_blogs %}
+    <div class="container mt-5">
+      <h3 class="text-center text-danger fw-bold mb-4">Other Blogs</h3>
+      <div class="row other-blogs">
+        {% for other_blog in other_blogs %}
+          <div class="col-md-6">
+            <div class="card">
+              <a href="{% url 'blog_detail' other_blog.slug %}" class="blog-link">
+                <img src="{% if other_blog.image %}{{ other_blog.image.url }}{% else %}{% static 'images/default-blog.png' %}{% endif %}" class="other-blog-image card-img-top" alt="{{ other_blog.title }}">
+              </a>
+              <div class="card-body">
+                <div class="text-center">
+                  <a href="{% url 'blog_detail' other_blog.slug %}" class="blog-link">
+                    <h6 class="card-title mt-2 fw-bold">{{ other_blog.title }}</h6>
+                  </a>
+                  <p class="blog-date">{{ other_blog.created_at|date:"F d, Y" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p>No other blogs available.</p>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock content %}

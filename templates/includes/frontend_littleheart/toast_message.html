@@ -1,0 +1,76 @@
+<style>
+  #toast-container {
+    z-index: 1100; 
+  }
+  .toast {
+    margin: 0;
+    padding: 0;
+  }
+  .toast-header {
+    background-color: #E6F0E3;
+    margin: 0;
+    padding: 0.5rem;
+  }
+  .toast-body {
+    position: relative;
+    padding: 1rem;
+  }
+  .toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background-color: #ff4500; 
+    animation: progress 5s linear forwards;
+  }
+  @keyframes progress {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+    }
+  }
+</style>
+
+<div aria-live="polite" aria-atomic="true" style="position: relative; margin: 0; padding: 0;">
+  <div id="toast-container" style="position: absolute; top: 0; right: 0; margin: 0; padding: 0;"></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const messages = [
+      {% for message in messages %}
+        { text: "{{ message|escapejs }}", tags: "{{ message.tags }}" },
+      {% empty %}
+        { text: "", tags: "" },
+      {% endfor %}
+    ].filter(msg => msg.text.trim() !== "");
+
+    if (messages.length > 0) {
+      const toastContainer = document.getElementById('toast-container');
+      messages.forEach(msg => {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+        toast.setAttribute('aria-atomic', 'true');
+        toast.innerHTML = `
+          <div class="toast-header" style="background-color: #E6F0E3; margin: 0; padding: 0.5rem;">
+            <strong class="me-auto">Little Heart Pet Shop</strong>
+            <small class="text-muted">Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body ${msg.tags.includes('error') ? 'text-bg-danger' : msg.tags.includes('success') ? 'text-bg-success' : 'text-bg-info'}">
+            ${msg.text}
+            <div class="toast-progress"></div>
+          </div>
+        `;
+        toastContainer.appendChild(toast);
+
+        const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 5000 });
+        bsToast.show();
+      });
+    }
+  });
+</script>

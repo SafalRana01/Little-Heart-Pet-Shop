@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+  <style>
+    body {
+      background-color: #fff;
+      overflow-x: hidden;
+    }
+    html{
+      scroll-behavior: smooth;
+      overflow-x: hidden !important;
+    }
+
+
+    .rotating-carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      will-change: transform;
+    }
+
+    .carousel-wrapper {
+      overflow: hidden;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .carousel-card {
+      flex: 0 0 calc(100% / 3);
+      padding: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card-inner {
+      background-color: #F5AA65;
+      border-radius: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .carousel-card:hover .card-inner {
+      transform: scale(1.08);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    .card-inner img {
+      height: 150px;
+      object-fit: contain;
+    }
+
+    .card-inner h5, .card-inner p, .card-inner li {
+      color: white;
+    }
+
+    .card-inner ul {
+      padding-left: 1.2rem !important;
+    }
+
+   @media (max-width: 992px) {
+  .carousel-card {
+    flex: 0 0 100%;
+  }
+}
+
+  </style>
+
+
+<!-- Fullscreen Hero Image -->
+<section class="hero-section" style="height: 100vh; width: 100vw; background-image: url('{% static "images/groom-1.jpg" %}'); background-size: cover; background-position: center; margin-bottom:-1px;"></section>
+
+<!-- Intro Paragraph Below Hero -->
+<section class="py-3" style="background-color: #FFF5F0;">
+  <div class="container">
+    <div class="text-center px-1 px-md-2">
+      <p class="text-dark" style="font-size: 20px; font-weight: 400; max-width: 1200px;">
+        <em>
+          At Little Heart Pet Shop, every grooming session is one-on-one—calm, caring, and tailored to your pet’s needs.
+          Whether it’s a quick tidy-up or a full makeover, I use gentle techniques and professional tools to keep your
+          pet looking and feeling their best.
+        </em>
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- Grooming Services -->
+
+  <section class="text-center py-5">
+  <h2 class="fw-bold text-danger mb-4 mt-3" style="font-size: 32px;">Our Grooming Services</h2>
+
+    <div class="carousel-wrapper">
+      
+      <div class="rotating-carousel">
+        <div class="carousel-card" onmouseover="pauseRotation()" onmouseout="resumeRotation()">
+          <div class="card shadow-sm border-0 px-3 py-4 text-center h-100 card-inner">
+          
+            <img src="{% static 'Images/nails.webp' %}" alt="Puppy Intro Bath">
+
+            <h5 class="fw-bold mt-3">Puppy&#39;s First Bath (For puppies less than 5 months old)</h5>
+            <p>A gentle and positive introduction to grooming, helping your puppy get comfortable with the
+process.</p>
+            <p class="fw-bold">From rate: Rs. 1600 (Below 5 Months)</p>
+           
+             <div class="text-start" style="max-width: 680px; margin-left: 10.5px; margin-right: auto; color: white;">
+            <ul class="list-unstyled mb-0">
+              <li>✔ Double bath with mild puppy shampoo</li>
+              <li>✔ Conditioning</li>
+              <li>✔ Soft towel & low-heat dry</li>
+              <li>✔ Nail clipping</li>
+              <li>✔ Face trim</li>
+              <li>✔ Sanitary area cleaning</li>
+              <li>✔ Ear & eye cleaning</li>
+              <li>✔ Light brushing</li>
+              <li>✔ A calming grooming experience</li>
+            </ul>
+          </div>
+          </div>
+        </div>
+
+      
+        <!-- 4 Cards Total -->
+        <div class="carousel-card" onmouseover="pauseRotation()" onmouseout="resumeRotation()">
+          <div class="card shadow-sm border-0 px-3 py-4 text-center h-100 card-inner">
+            <img src="{% static 'Images/puppy.webp' %}" alt="Wash & Dry">
+         
+            <h5 class="fw-bold mt-3">Wash & Dry</h5>
+            <p>The perfect refresh for a clean and fresh coat.</p>
+
+            <p class="fw-bold">Extra Small: Rs. 950 | Small: Rs. 1450 | Medium: Rs. 1800 | Large: Rs. 2250</p>
+             <div class="text-start" style="max-width: 680px; margin-left: 10.5px; margin-right: auto; color: white;">
+            <ul class="list-unstyled mb-0">
+              <li>✔ Double bath & conditioner</li>
+              <li>✔ Blow Dry</li>
+              <li>✔ Ear & eye cleaning</li>
+              <li>✔ Light brushing</li>
+              <li>✔ Pet-safe cologne spritz</li>
+            </ul>
+          </div>
+          </div>
+        </div>
+
+               <div class="carousel-card" onmouseover="pauseRotation()" onmouseout="resumeRotation()">
+          <div class="card shadow-sm border-0 px-3 py-4 text-center h-100 card-inner">
+            <img src="{% static 'Images/wash_tidy.webp' %}" alt="Wash & Tidy">
+            <h5 class="fw-bold mt-3">Wash & Tidy</h5>
+            <p>A comprehensive clean with essential touch-ups for a neat appearance.</p>
+            <p class="fw-bold">Extra Small: Rs. 1200 | Small: Rs. 1870 | Medium: Rs. 2350 | Large: Rs. 2600</p>
+          <div class="text-start" style="max-width: 680px; margin-left: 10.5px; margin-right: auto; color: white;">
+            <ul class="list-unstyled mb-0">
+              <li>✔ Double bath & conditioner</li>
+              <li>✔ Blow dry</li>
+              <li>✔ Nail clipping</li>
+              <li>✔ Sanitary area cleaning</li>
+              <li>✔ Face & paw touch-up</li>
+              <li>✔ Ear & eye cleaning</li>
+              <li>✔ Full body brush</li>
+              <li>✔ Pet-safe cologne spritz</li>
+            </ul>
+            </div>
+          </div>
+        </div>
+
+   
+
+        <div class="carousel-card" onmouseover="pauseRotation()" onmouseout="resumeRotation()">
+          <div class="card shadow-sm border-0 px-3 py-4 text-center h-100 card-inner">
+            <img src="{% static 'Images/fullgroom.jpg' %}" alt="Full Groom">
+            <h5 class="fw-bold mt-3">Full Groom</h5>
+            <p>The complete makeover, including a stylish trim or clip to perfection.</p>
+            <p class="fw-bold">Extra Small: Rs. 1500 | Small: Rs. 2060 | Medium: Rs. 2500 | Large: Rs. 2950</p>
+             <div class="text-start" style="max-width: 680px; margin-left: 10.5px; margin-right: auto; color: white;">
+            <ul class="list-unstyled mb-0">
+              <li>✔ Double bath & conditioner</li>
+              <li>✔ Blow dry</li>
+              <li>✔ Nail Clipping</li>
+              <li>✔ Sanitary trim & cleaning</li>
+              <li>✔ Ear & Eye Cleaning</li>
+              <li>✔ Pet-safe cologne spriz</li>
+            </ul>
+          </div>
+          </div>
+        </div>
+
+        
+
+      </div>
+    </div>
+    <div class="text-center mt-3">
+  <button onclick="prevCard()" style="padding: 8px 16px; border: none; background-color: #F5AA65; color: white; font-weight: bold; margin-right: 10px; border-radius: 8px;">← Prev</button>
+  <button onclick="nextCard()" style="padding: 8px 16px; border: none; background-color: #F5AA65; color: white; font-weight: bold; border-radius: 8px;">Next →</button>
+</div>
+
+  </section>
+
+<section class="bg-white text-center">
+  <!-- Additional Services -->
+<div class="mt-5 px-4 py-4 rounded" style="background-color: #FFF5F0;">
+  <h4 class="fw-bold text-danger mb-4 mt-2" style="font-size: 32px;">Additional Services</h4>
+  <ul class="list-unstyled text-start mx-auto" style="max-width: 830px; font-size: 22px; ">
+    <li><span class="text-success fw-bold">✔ De-shedding Treatment</span> – Removes loose undercoat for healthy skin (NPR 500 - 1,200)</li>
+    <li><span class="text-success fw-bold">✔ Teeth Brushing</span> – Freshens breath & supports dental health (NPR 250)</li>
+    <li><span class="text-success fw-bold">✔ Nail Trimming</span> – Gentle trimming to keep nails at a healthy length (NPR 250)</li>
+    <li><span class="text-success fw-bold">✔ Special Shampoo</span> – Options for sensitive skin. (NPR 500)</li>
+    <li><span class="text-success fw-bold">✔ Flea & Tick Treatment Bath</span> – Effective treatments to keep your pet pest-free (NPR 500)</li>
+    <li><span class="text-success fw-bold">✔ Dematting</span> – Gently removes tangles and mats to restore coat health and comfort (NPR 500 - 1,500+)</li>
+    <li><span class="text-success fw-bold">✔ Anal Gland Expression</span> – Manual expression is a necessary intervention to relieve
+pressure, prevent serious infections, and maintain the pet&#39;s comfort and overall
+health. (NPR 600)</li>
+  </ul>
+</div>
+
+    <!-- Size Table -->
+     <!-- Size Table -->
+<h4 class="fw-bold text-danger mb-4 mt-5" style="font-size: 32px;">Size & Breed Categories</h4>
+<div class="d-flex justify-content-center">
+  <table class="table table-bordered text-center" style="max-width: 600px;">
+    <thead>
+      <tr>
+        <th style="background-color: #8A5E51; color: white;">Size</th>
+        <th style="background-color: #8A5E51; color: white;">Weight Guide (kg)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="background-color: #F5EDE6;"><strong>XS</strong></td>
+        <td style="background-color: #F5EDE6;">Up to 5</td>
+      </tr>
+      <tr>
+        <td style="background-color: white;"><strong>S</strong></td>
+        <td style="background-color: white;">5 – 11</td>
+      </tr>
+      <tr>
+        <td style="background-color: #F5EDE6;"><strong>M</strong></td>
+        <td style="background-color: #F5EDE6;">12 – 19</td>
+      </tr>
+      <tr>
+        <td style="background-color: white;"><strong>L</strong></td>
+        <td style="background-color: white;">20 – 27</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+   <!-- Booking Call to Action -->
+<div class="mt-5 mb-3 py-4 px-3 rounded" style="background-color: #ffe7e0;">
+  <h5 style="font-size: 30px; font-weight: 800; color: #D84315; margin-bottom: 2%;">
+    Ready to Book Your Pet’s Pampering?
+  </h5>
+  <p style="font-weight: 500; font-size:18px; margin-bottom: 2%;">
+    Appointments by request to provide one-on-one care.
+  </p>
+  <a href="{% url 'grooming_booking' %}" class="btn" 
+   style="background-color: #D48C77;
+          color: white;
+          font-weight: bold;
+          border-radius: 50px;
+          padding: 0.5rem 1.5rem;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.39);
+          display: inline-block;
+          text-decoration: none;
+          transition: all 0.3s ease;"
+   onmouseover="this.style.backgroundColor='#c56f59'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.45)';"
+   onmouseout="this.style.backgroundColor='#D48C77'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.39)';">
+   Book Now →
+</a>
+</div>
+
+</section>
+
+
+<script>
+  const carousel = document.querySelector('.rotating-carousel');
+  let cards = document.querySelectorAll('.carousel-card');
+  let index = 0;
+  let interval = null;
+
+  // Clone enough cards for seamless looping (3 extra clones)
+  const cloneCount = 3;
+  const originalCards = [...cards];
+  for (let i = 0; i < cloneCount; i++) {
+    const clone = originalCards[i % originalCards.length].cloneNode(true);
+    carousel.appendChild(clone);
+  }
+
+  // Re-select cards after cloning
+  cards = document.querySelectorAll('.carousel-card');
+
+  function updateCarousel() {
+    const cardWidth = cards[0].offsetWidth;
+    carousel.style.transform = `translateX(-${index * cardWidth}px)`;
+  }
+
+  function rotateCards() {
+    index++;
+    if (index > cards.length - 3) { // Reset loop when nearing end
+      index = 0;
+    }
+    updateCarousel();
+  }
+
+  function startRotation() {
+    interval = setInterval(rotateCards, 3000);
+  }
+
+  function pauseRotation() {
+    clearInterval(interval);
+  }
+
+  function resumeRotation() {
+    startRotation();
+  }
+
+  function prevCard() {
+    pauseRotation();
+    index = (index - 1 + cards.length) % cards.length;
+    updateCarousel();
+  }
+
+  function nextCard() {
+    pauseRotation();
+    index = (index + 1) % cards.length;
+    updateCarousel();
+  }
+
+  // Init
+  startRotation();
+  window.addEventListener('resize', updateCarousel);
+</script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<title>Pet Booking Form</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  #heroCarousel .carousel-inner {
+    height: 95vh;
+    margin-top: -30px;
+    margin-bottom: -15px;
+  }
+
+  #heroCarousel .carousel-item {
+    height: 90vh;
+  }
+
+  #heroCarousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintains aspect ratio, cropping if necessary */
+  }
+
+  /* Responsive adjustments for mobile */
+  @media (max-width: 767.98px) {
+     #heroCarousel .carousel-inner {
+      height: auto; /* Remove fixed height for mobile */
+ /* Reduced minimum height for better fit */
+      margin-top: -7%;
+      margin-bottom: -7%;
+    }
+
+    #heroCarousel .carousel-item {
+      height: auto;
+    }
+
+    #heroCarousel .carousel-item img {
+      width: 100%;
+      height: 40vh; /* Fixed height to control stretching */
+      object-fit: cover; /* Covers the area, cropping to fit without excessive stretch */
+      min-height: 0; /* Remove min-height to allow natural scaling */
+    }
+
+    #heroCarousel .position-absolute {
+      top: 30%; /* Adjust caption position for mobile */
+      transform: translateY(-30%);
+    }
+
+    #heroCarousel .bg-transparent {
+      padding: 2rem; /* Reduce padding for smaller screens */
+      max-width: 100%; /* Full width on mobile */
+    }
+
+    #heroCarousel .carousel-caption h2 {
+      font-size: 1.5rem; /* Reduce font size for mobile */
+    }
+
+    #heroCarousel .carousel-caption p {
+      font-size: 0.9rem; /* Reduce font size for mobile */
+    }
+
+    #heroCarousel .btn {
+      padding: 0.5rem 1rem; /* Adjust button size */
+      font-size: 0.9rem;
+    }
+
+    .opening-hours-img {
+    display: none; /* Hide the image on mobile */
+    }
+
+      .opening-hours-text {
+    flex: 1 1 50%;
+    background-color: #fff3ed;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .opening-hours-text h3 {
+    color: #d44106;
+    font-weight: 800;
+    text-align: center; /* Center text on mobile */
+  }
+
+  .opening-hours-text h5 {
+    color: #ff5722;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center; /* Center text on mobile */
+  }
+
+  .opening-hours-text p {
+    margin-bottom: 5px;
+    font-size: 15px;
+    text-align: center; /* Center text on mobile */
+  }
+
+  .opening-hours-text i {
+    margin-right: 6px;
+    color: #333;
+  }
+
+  }
+  
+
+  #heroCarousel .carousel-caption,
+  #heroCarousel .position-absolute {
+    z-index: 10;
+  }
+
+  /* Hide carousel controls */
+  #heroCarousel .carousel-control-prev,
+  #heroCarousel .carousel-control-next {
+    display: none !important;
+  }
+
+  .btn-orange {
+    background-color: #ff5722;
+    color: white;
+  }
+
+  .card-price {
+    border-radius: 15px;
+    background-color: #ff5722;
+    color: white;
+  }
+
+  .pet-care-section img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .latest-posts img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .latest-posts p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .post-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .view-all {
+    color: #eb5a00;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .divider {
+    border-left: 1px solid #000;
+    height: 100%;
+  }
+
+  .opening-hours-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin-top: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .opening-hours-img {
+    flex: 1 1 50%;
+    background: url('{% static "images/hour_PhotoGrid.png" %}') center center/cover no-repeat;
+    min-height: 400px;
+  }
+
+  .opening-hours-text {
+    flex: 1 1 50%;
+    background-color: #fff3ed;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .opening-hours-text h3 {
+    color: #d44106;
+    font-weight: 800;
+  }
+
+  .opening-hours-text h5 {
+    color: #ff5722;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  .opening-hours-text p {
+    margin-bottom: 5px;
+    font-size: 15px;
+  }
+
+  .opening-hours-text i {
+    margin-right: 6px;
+    color: #333;
+  }
+
+  .services-section {
+    padding: 60px 15px;
+    text-align: center;
+  }
+
+  .services-section h2 {
+    font-weight: bold;
+    color: #e25120;
+    margin-bottom: 40px;
+  }
+
+  .service-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 25px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    height: 100%;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .service-card h5 {
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .service-card p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .btn-outline-dark {
+    border-radius: 25px;
+    padding: 5px 20px;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+
+  .about-section {
+    padding: 3rem 1rem;
+    margin-top: -20px;
+    margin-bottom: -55px;
+  }
+
+  .about-image {
+    width: 80%;
+    height: 100vh;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    margin-left: 180px !important;
+  }
+
+  .about-card {
+    background-color: #8b5d4d;
+    color: #fff;
+    padding: 2rem;
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 8px 8px 0 #704b3e;
+    margin-left: -90px;
+    z-index: 1;
+    height: 80vh;
+    max-width: 75%;
+  }
+
+  .about-card h2 {
+    font-weight: 900;
+    font-size: 2.4rem;
+  }
+
+  .about-card p {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 500;
+    text-align: justify;
+  }
+
+  @media (max-width: 767.98px) {
+    .about-card {
+      margin-left: 0;
+      box-shadow: 6px 6px 0 #704b3e;
+      height: auto;
+      max-width: 100%;
+    }
+    .about-image {
+      display: none;
+    }
+  }
+
+  .testimonial-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+    background-color: rgb(252, 238, 230);
+  }
+
+  .testimonial-card:hover {
+    transform: scale(1.05);
+  }
+
+  .testimonial-img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .star-rating {
+    color: #FFD700;
+    font-size: 1.6rem;
+  }
+
+  .carousel-inner {
+    padding: 30px 0;
+  }
+</style>
+
+<!-- Hero Section -->
+<!-- Hero Slider -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+
+    <!-- Slide 1 -->
+    <div class="carousel-item active">
+      <div class="position-relative">
+        <img src="{% static 'images/hero.jpeg' %}" class="d-block w-100" alt="Grooming 1">
+        <div class="position-absolute top-50 start-0 translate-middle-y ps-5">
+          <div class="bg-transparent p-4 rounded shadow-lg" style="max-width: 400px;">
+            <h2 class="fw-bold text-danger">Pamper Your Pet with<br> Gentle Grooming!</h2>
+            <p class="text-light small mb-3">From Baths to Haircuts —<br> We Keep Them Looking Their Best</p>
+            <a href="#" class="btn btn-outline-danger btn-sm rounded-pill px-4">Groom Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item">
+      <div class="position-relative">
+        <img src="{% static 'images/hero-2_PhotoGrid.png' %}" class="d-block w-100" alt="Grooming 2">
+        <div class="position-absolute top-50 start-0 translate-middle-y ps-5">
+          <div class="bg-transparent p-4 rounded shadow-lg" style="max-width: 350px;">
+            <h2 class="fw-bold text-danger">Easy Appointments,<br> Happy Pets!</h2>
+            <p class="text-dark small mb-3">Book Your Pet’s Next Grooming<br> Session Online in Minutes</p>
+            <a href="#" class="btn btn-outline-danger btn-sm rounded-pill px-4">Book Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<section class="services-section" style="background-color: #fceee6;">
+  <div class="container">
+    <h2>Our Services</h2>
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="service-card">
+          <h5>Wash & Dry</h5>
+          <p>A gentle bath and thorough blow-dry to keep your pet clean and happy.</p>
+          <a href="{% url 'grooming_booking' %}" class="btn btn-outline-dark">Book Now</a>
+
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="service-card">
+          <h5>Full Groom</h5>
+          <p>Complete grooming including haircut, nail trim, and ear cleaning.</p>
+          <a href="{% url 'grooming_booking' %}" class="btn btn-outline-dark">Book Now</a>
+
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="service-card">
+          <h5>Wash & Tidy</h5>
+          <p>A gentle bath followed by light trimming to keep your pet neat, clean, and comfortable.</p>
+          <a href="{% url 'grooming_booking' %}" class="btn btn-outline-dark">Book Now</a>
+
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="service-card">
+          <h5>De-shedding Treatment</h5>
+          <p>Reduce shedding and keep your pet’s coat healthy and shiny.</p>
+          <a href="{% url 'grooming_booking' %}" class="btn btn-outline-dark">Book Now</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left image -->
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <img src="{% static 'images/home_about.jpeg' %}" alt="Beena and Dog" class="about-image">
+      </div>
+
+      <!-- Right card -->
+      <div class="col-lg-6">
+        <div class="about-card">
+          <h2>Hi, I’m Beena Gurung</h2>
+          <p>
+            I’m a certified groomer from the Australian Dog Grooming School, with hands-on experience in Australian grooming salons.
+            I run a one-on-one grooming space, where every pet is treated with the same love and patience I give my own.
+          </p>
+          <p>
+            With high-quality tools, gentle techniques, and a calm environment, I tailor each session to your pet’s comfort and personality.
+            Here, it’s not just about grooming—it’s about trust, care, and making your furry friend feel safe and special.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="opening-hours-section">
+  <div class="opening-hours-img"></div>
+  <div class="opening-hours-text">
+    <h3>Our <span style="color:#ff5722">Opening</span> hours</h3>
+    <div class="mt-3">
+      <h5>Monday– Saturday</h5>
+      <p style="font-weight:500;"><i class="bi bi-clock"></i> 9:00am – 5:00pm</p>
+     
+      <h5>Sunday</h5>
+      <p style="font-weight:500;"><i class="bi bi-clock"></i> Closed</p>
+    </div>
+  </div>
+</div>
+
+<section class="container py-5 text-center">
+  <h2 class="fw-bold text-danger">Pet Care & Health</h2>
+  <div class="row mt-4 text-start align-items-start">
+    <div class="col-md-8">
+      <img src="{% static 'images/blog-1.png' %}" alt="Dog scratching" class="img-fluid rounded" style="width: 100%; height: 60vh;">
+      <p class="mt-3 fw-semibold" style="margin-left: 20%;">Common Types of Dog Allergies: Signs, Symptoms and Treatment</p>
+    </div>
+    <div class="col-md-1 d-none d-md-block">
+      <div class="divider"></div>
+    </div>
+    <div class="col-md-3 latest-posts">
+      <p class="fw-semibold">Latest Posts,</p>
+      <div class="post-item">
+        <img src="{% static 'images/blog-2.png' %}" alt="Cat drinking water">
+        <p>Dehydration in Cats. It all Starts With Water</p>
+      </div>
+      <div class="post-item">
+        <img src="{% static 'images/blog-3.png' %}" alt="Dog gut health">
+        <p>Understanding the Importance of Gut Health in Dogs</p>
+      </div>
+      <div class="post-item">
+        <img src="{% static 'images/blog-4.png' %}" alt="Cat hip injury">
+        <p>Understanding Feline Hip Injuries in Cats</p>
+      </div>
+      <div class="post-item">
+        <img src="{% static 'images/blog-5.png' %}" alt="Tick fever">
+        <p>Tick Fever in cats: Recognizing the Signs and Treatment</p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4">
+    <a href="{% url 'blog_list' %}" class="view-all">View All</a>
+  </div>
+</section>
+
+<!-- Bootstrap Icons CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const carousel = document.querySelector('#testimonialCarousel');
+  let bsCarousel = bootstrap.Carousel.getInstance(carousel) || new bootstrap.Carousel(carousel);
+
+  function pauseCarousel() {
+    bsCarousel.pause();
+  }
+
+  function resumeCarousel() {
+    bsCarousel.cycle();
+  }
+</script>
+{% endblock content %}

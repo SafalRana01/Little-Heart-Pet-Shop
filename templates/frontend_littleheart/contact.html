@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center text-danger fw-bold mb-5">Contact Us</h2>
+
+  <div class="row">
+    <!-- Contact Info -->
+    <div class="col-md-6 mb-4">
+      <h4 class="text-danger fw-bold">Get In Touch</h4>
+      <p>
+        Whether you have a question about a product, need advice on pet care, or just want to share a story about your furry friend, we're here to listen and help. Please don’t hesitate to get in touch with us anytime.
+      </p>
+      <p>📞 Phone: +977-9769493602</p>
+      <p>📧 Email: littleheartpetshop@gmail.com</p>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="col-md-6">
+      <h5 class="fw-bold text-danger">Contact Form</h5>
+      <form method="POST">
+        {% csrf_token %}
+        {% comment %} {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mb-3" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %} {% endcomment %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label fw-bold text-danger">Name</label>
+            {{ form.name }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label fw-bold text-danger">Email</label>
+            {{ form.email }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="{{ form.phone.id_for_label }}" class="form-label fw-bold text-danger" >Phone Number</label>
+          {{ form.phone }}
+        </div>
+        <div class="mb-3">
+          <label for="{{ form.subject.id_for_label }}" class="form-label fw-bold text-danger">Subject</label>
+          {{ form.subject }}
+        </div>
+        <div class="mb-3">
+          <label for="{{ form.message.id_for_label }}" class="form-label fw-bold text-danger">Message</label>
+          {{ form.message }}
+        </div>
+        <button type="submit" class="btn btn-outline-danger">SUBMIT →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Map Section -->
+  <div class="w-100 bg-white py-5">
+    <h2 class="text-center text-danger fw-bold mb-3">Our Location</h2>
+    <div class="w-100">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.237565585373!2d83.9755903150459!3d28.248134382598972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x543edf32f8988942!2sBytesoft%20Nepal!5e0!3m2!1sen!2snp!4v1717582448487!5m2!1sen!2snp" 
+        width="100%" 
+        height="400" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div id="faq-section" class="py-5 px-3" style="background-color: #fdf1ea; margin-top: 20px;">
+    <div class="container">
+      <h3 class="text-center fw-bold text-danger mb-3">FAQ</h3>
+      <p class="text-center text-muted mb-5">
+        We’re here for you every step of the way. Please reach out if you have any further questions via our contact form.
+      </p>
+
+      <div class="faq-wrapper">
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>How often should I groom my pet?</span>
+            <span class="faq-icon fs-4">–</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: block;">
+            It depends on the breed, coat type, and lifestyle of your pet. On average, every 4–6 weeks is ideal to keep their coat healthy and hygienic.
+          </div>
+        </div>
+
+        
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>Why is grooming important for pets?</span>
+            <span class="faq-icon fs-4">+</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: none;">
+           Regular grooming is essential for maintaining your pet’s overall health and hygiene. It helps prevent matting, skin issues, and parasites, promotes better circulation, and allows for early detection of any abnormalities. Grooming also enhances your pet’s comfort and appearance.
+          </div>
+        </div>
+
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>How should I prepare my pet for a grooming session?</span>
+            <span class="faq-icon fs-4">+</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: none;">
+            Please ensure your pet has relieved itself (urinated and defecated) before the appointment. A light meal is acceptable beforehand. If your pet is feeling unwell or showing signs of illness, we kindly request that you cancel or reschedule the booking for the safety and comfort of your pet and our staff.
+          </div>
+        </div>
+
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>Can I stay with my pet during the grooming session?</span>
+            <span class="faq-icon fs-4">+</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: none;">
+            No, you can’t stay during the grooming session. Pets tend to get excited or distracted with their owners around, which can make the process unsafe. Our groomers work best in a calm, focused environment to ensure your pet’s safety and comfort.
+          </div>
+        </div>
+
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>How do I book a grooming appointment?</span>
+            <span class="faq-icon fs-4">+</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: none;">
+            You can book online through our website’s booking form or call us directly. Early booking is recommended, especially on weekends.
+          </div>
+        </div>
+
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>What if my pet has never been groomed before?</span>
+            <span class="faq-icon fs-4">+</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: none;">
+            That’s okay! Our team is trained to handle first-timers gently. We’ll go at your pet’s pace to ensure they feel safe and relaxed.
+          </div>
+        </div>
+        
+        <div class="mb-4 border-bottom pb-3">
+  <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+    <span>What happens if my dog becomes aggressive or unmanageable during grooming?</span>
+    <span class="faq-icon fs-4">+</span>
+  </div>
+  <div class="faq-answer mt-2 text-muted" style="display: none;">
+    If your dog becomes overly aggressive or unmanageable during the session, we will stop the grooming immediately for the safety of your pet and our staff. You will be contacted right away, and partial grooming fees may still apply depending on how much of the service was completed.
+  </div>
+</div>
+
+
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex justify-content-between align-items-center faq-question fw-bold text-danger fs-5" onclick="toggleFaq(this)">
+            <span>Do you accept aggressive or elderly dogs for grooming?</span>
+            <span class="faq-icon fs-4">+</span>
+          </div>
+          <div class="faq-answer mt-2 text-muted" style="display: none;">
+            For the safety and well-being of all pets and staff, we do not accept dogs that display aggressive behavior or have a history of biting. Additionally, we do not groom senior dogs with mobility issues, heart problems, or other serious health conditions, as grooming may cause them unnecessary stress.
+            We always prioritize your pet's comfort and safety. Please consult your vet for alternative care options if needed.
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleFaq(clicked) {
+    const allAnswers = document.querySelectorAll('.faq-answer');
+    const allIcons = document.querySelectorAll('.faq-icon');
+
+    allAnswers.forEach(ans => ans.style.display = 'none');
+    allIcons.forEach(icon => icon.innerHTML = '+');
+
+    const answer = clicked.nextElementSibling || clicked.parentElement.querySelector('.faq-answer');
+    const icon = clicked.querySelector('.faq-icon');
+
+    const isOpen = answer.style.display === 'block';
+    answer.style.display = isOpen ? 'none' : 'block';
+    icon.innerHTML = isOpen ? '+' : '–';
+  }
+</script>
+<style>
+  .faq-question {
+    cursor: pointer;
+  }
+
+  .faq-answer {
+    transition: all 0.3s ease;
+  }
+</style>
+{% endblock content %}

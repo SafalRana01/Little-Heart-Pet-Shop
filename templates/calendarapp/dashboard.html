@@ -1,0 +1,195 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %}Booking
+Dashboard{% endblock title %} {% block breadcrumb %}
+<style>
+  thead.custom-header {
+    background-color: #999999 !important;
+  }
+</style>
+<div>
+  <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+</div>
+<ul class="app-breadcrumb breadcrumb">
+  <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+  <li class="breadcrumb-item"><a>Dashboard</a></li>
+</ul>
+{% endblock breadcrumb %} {% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <div
+            id="sampleTable_wrapper"
+            class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer"
+          >
+            <div class="row">
+              <div class="col-sm-12">
+                <!-- Today’s Bookings Table -->
+                <h4>Today’s Bookings</h4>
+                <table class="table table-hover table-bordered dataTable">
+                  <thead class="custom-header">
+                    <tr>
+                      <th>SN</th>
+                      <th>Service Type</th>
+                      <th>Size</th>
+                      <th>Booking Date</th>
+                      <th>Booking Time</th>
+                      <th>Add-Ons</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for event in today_events %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ event.service_type }}</td>
+                      <td>
+                        {% if event.size and event.size != "-" %}
+                          {{ event.size }}
+                        {% elif event.pet_size %}
+                          {{ event.pet_size }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                      <td>{{ event.date_time|date:"Y-m-d" }}</td>
+                      <td>
+                        From {{ event.date_time|time:"g:i a" }} to {{ event.end_time|time:"g:i a" }}
+                      </td>
+                      <td>
+                        {% if event.add_ons %}
+                          {{ event.add_ons|join:", " }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="6">No bookings for today.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                <!-- Tomorrow’s Bookings Table -->
+                <h4>Tomorrow’s Bookings</h4>
+                <table class="table table-hover table-bordered dataTable">
+                  <thead class="custom-header">
+                    <tr>
+                      <th>SN</th>
+                      <th>Service Type</th>
+                      <th>Size</th>
+                      <th>Booking Date</th>
+                      <th>Booking Time</th>
+                      <th>Add-Ons</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for event in tomorrow_events %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ event.service_type }}</td>
+                      <td>
+                        {% if event.size and event.size != "-" %}
+                          {{ event.size }}
+                        {% elif event.pet_size %}
+                          {{ event.pet_size }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                      <td>{{ event.date_time|date:"Y-m-d" }}</td>
+                      <td>
+                        From {{ event.date_time|time:"g:i a" }} to {{ event.end_time|time:"g:i a" }}
+                      </td>
+                      <td>
+                        {% if event.add_ons %}
+                          {{ event.add_ons|join:", " }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="6">No bookings for tomorrow.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                <!-- Upcoming Bookings Table -->
+                <h4>Upcoming Bookings</h4>
+                <table class="table table-hover table-bordered dataTable">
+                  <thead class="custom-header">
+                    <tr>
+                      <th>SN</th>
+                      <th>Service Type</th>
+                      <th>Size</th>
+                      <th>Booking Date</th>
+                      <th>Booking Time</th>
+                      <th>Add-Ons</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for event in upcoming_events %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ event.service_type }}</td>
+                      <td>
+                        {% if event.size and event.size != "-" %}
+                          {{ event.size }}
+                        {% elif event.pet_size %}
+                          {{ event.pet_size }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                      <td>{{ event.date_time|date:"Y-m-d" }}</td>
+                      <td>
+                        From {{ event.date_time|time:"g:i a" }} to {{ event.end_time|time:"g:i a" }}
+                      </td>
+                      <td>
+                        {% if event.add_ons %}
+                          {{ event.add_ons|join:", " }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="6">No upcoming bookings after tomorrow.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block extrascripts %}
+<script
+  type="text/javascript"
+  src="{% static 'js/plugins/jquery.dataTables.min.js' %}"
+></script>
+<script
+  type="text/javascript"
+  src="{% static 'js/plugins/dataTables.bootstrap.min.js' %}"
+></script>
+<script type="text/javascript">
+  $("#sampleTable").DataTable({
+    lengthMenu: [
+      [10, 25, 50, -1],
+      [10, 25, 50, "All"],
+    ],
+    pageLength: 10,
+  });
+</script>
+{% endblock extrascripts %}

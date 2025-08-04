@@ -1,0 +1,173 @@
+{% load static %}
+
+<style>
+    .bg-light-green {
+        background-color: #E6F0E3;
+    }
+    .text-orange {
+        color: #D84315;
+        font-size: 28px;
+    }
+    .btn-orange {
+        background-color: #D84315;
+        color: white;
+        border: none;
+    }
+    .btn-orange:hover {
+        background-color: #D84315;
+        color: white;
+    }
+    .footer a:hover {
+        text-decoration: underline;
+    }
+    .footer .form-control {
+        background-color: #D3E0D1;
+        border: none;
+    }
+    .footer .form-control::placeholder {
+        color: #6C757D;
+    }
+    .footer h5, .footer h6 {
+        font-weight: 700;
+    }
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    main {
+        flex: 1 0 auto;
+    }
+    .footer {
+        flex-shrink: 0;
+        margin-bottom: 0 !important;
+    }
+    .footer-icon {
+        margin-right: 8px;
+    }
+    .footer .form-control::placeholder {
+    color: #D84315;
+}
+
+    @media (max-width: 767.98px) {
+        .footer .col-12 {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .footer .d-flex {
+            justify-content: center !important;
+        }
+    }
+    .whatsapp_float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25d366;
+        color: #fff;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+    }
+    .whatsapp-icon {
+        margin-top: 16px;
+    }
+</style>
+
+<footer class="footer bg-light-green py-5 mb-0">
+    <div class="container">
+        <!-- Top Section -->
+        <div class="row align-items-center mb-5">
+            <div class="col-12 col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'Images/web_logo.png' %}" alt="Little Heart Pet Shop" style="height: 150px;">
+                </a>
+            </div>
+   <div class="col-12 col-md-6 d-flex flex-wrap flex-md-nowrap justify-content-md-end align-items-center">
+    <h5 class="text-orange mb-2 mb-md-0 me-md-3" style="white-space: nowrap;">Subscribe to our newsletter</h5>
+    <form class="d-flex w-100 w-md-auto">
+        <input type="email" class="form-control me-2" placeholder="Enter your email"
+               style="border-radius: 50px; height: 40px; max-width: 480px; flex: 1 1 auto; min-width: 280px; border: 1px solid #D84315; background-color: transparent; ">
+        <button type="submit" class="btn btn-orange" style="border-radius: 50px; height: 40px; font-weight:600; padding: 0 1rem;">Subscribe</button>
+    </form>
+</div>
+
+
+
+        </div>
+
+        <!-- 4-Column Grid Section -->
+        <div class="row">
+            <!-- About Us -->
+            <div class="col-12 col-md-5 mb-4">
+                <h5 class="text-orange mb-3">About Us</h5>
+                <p class="xl text-dark" style="text-align: justify;">
+                    Little Heart Pet Shop is your go-to shop for dog and cat products! From toys and treats to beds and grooming essentials, we’re here to help you pamper your furry friends with the best. Explore our collections and make your pet’s day.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-12 col-md-2 mb-4">
+                <h5 class="text-orange mb-3">Quick Links</h5>
+                <ul class="list-unstyled text-dark xl">
+                    <li class="mb-2"><a href="{% url 'home' %}" class="text-dark text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="{% url 'about' %}" class="text-dark text-decoration-none">About Us</a></li>
+                    <li class="mb-2"><a href="{% url 'blog_list' %}" class="text-dark text-decoration-none">Blog</a></li>
+                    <li class="mb-2"><a href="{% url 'contact' %}" class="text-dark text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Care -->
+            <div class="col-12 col-md-2 mb-4">
+                <h5 class="text-orange mb-2">Customer Care</h5>
+                <ul class="list-unstyled text-dark dark">
+                    <li class="mb-2"><a href="{% url 'contact' %}#faq-section" class="text-dark text-decoration-none">FAQs</a></li>
+
+                    <li><a href="{% url 'terms_and_conditions' %}" class="text-dark text-decoration-none">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Social -->
+            <div class="col-12 col-md-3 mb-4">
+                <h5 class="text-orange mb-3">Contact</h5>
+                <p class="xl text-dark">
+                    Email: <a href="mailto:littleheartpetshop@gmail.com" class="text-dark text-decoration-none">littleheartpetshop@gmail.com</a><br>
+                    Phone: <a href="tel:9765493602" class="text-dark text-decoration-none">9769493602</a><br>
+                    Location: Amarsingh Chowk, Annapurna Marga, Pokhara - 12
+                </p>
+                <h6 class="text-orange mb-2">Follow Us</h6>
+                <div class="d-flex">
+                    <a href="https://www.facebook.com/profile.php?id=61574009501091" target="_blank" rel="noopener noreferrer" class="text-dark me-3">
+                        <i class="bi bi-facebook fs-5"></i>
+                    </a>
+                    <a href="https://www.instagram.com/littleheartpetshop/" target="_blank" rel="noopener noreferrer" class="text-dark me-3">
+                        <i class="bi bi-instagram fs-5"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@littleheartpetshop" target="_blank" rel="noopener noreferrer" class="text-dark">
+                        <i class="bi bi-tiktok fs-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="py-3 bg-white" style="margin-bottom: -50px;">
+        <div class="container text-center">
+            <p class="xl text-dark mb-0" style="font-weight:600;">Copyright <a href="calendarapp/calender/">©</a> 2025 Little Heart Pet Shop All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- WhatsApp Button -->
+<a href="https://wa.me/+9779765493602" target="_blank" class="whatsapp_float">
+    <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
+</a>

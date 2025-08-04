@@ -1,0 +1,14 @@
+asgiref==3.8.1
+click==8.2.1
+colorama==0.4.6
+Django==5.2.2
+gunicorn==23.0.0
+h11==0.16.0
+mysqlclient==2.2.7
+packaging==25.0
+pillow==11.2.1
+pytz==2025.2
+qrcode==8.2
+sqlparse==0.5.3
+tzdata==2025.2
+uvicorn==0.35.0

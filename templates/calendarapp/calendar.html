@@ -1,0 +1,933 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %}Event
+Calendar{% endblock title %} {% block extracss %}
+<link href="{% static 'calender/main.css' %}" rel="stylesheet" />
+<style>
+  /* Push the modals slightly down from the top */
+  .modal-dialog-custom {
+    margin: 40px auto !important;
+  }
+  /* Make the modal body scrollable if it is too long */
+  .modal-body {
+    max-height: 67vh;
+    overflow-y: auto;
+  }
+</style>
+{% endblock extracss %} {% block breadcrumb %}
+<div>
+  <h1><i class="fa fa-calendar"></i> Calendar</h1>
+</div>
+<ul class="app-breadcrumb breadcrumb">
+  <li class="breadcrumb-item ml-auto">
+    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#eventModal">
+      <i class="fa fa-plus"></i> Add
+    </button>
+  </li>
+</ul>
+
+
+{% endblock breadcrumb %} {% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile row">
+      <!-- <div class="col-md-3">
+        {% if events_month %}
+        <div id="external-events">
+          <h4 class="mb-4">Running Events</h4>
+          {% for event in events_month %}
+          <div class="fc-event">
+            <h3>Service: {{ event.service_type }}</h3>
+            <p>Size: {{ event.size }}</p>
+            <p>Booking Date: {{ event.booking_date }}</p>
+            <p>Booking Time: {{ event.booking_time }}</p>
+            {% if event.addons %}
+            <p>Add-Ons: {{ event.addons }}</p>
+            {% else %}
+            <p>No Add-Ons</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div> -->
+
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        <ul>
+          {% for field in form %} {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+          {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <div class="col-md-12">
+        <div id="calendar"></div>
+      </div>
+
+      <div
+        class="modal fade show"
+        id="eventModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-custom" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title text-white w-100 text-center" id="exampleModalLongTitle">
+                Add New Booking
+              </h5>
+
+              <button
+                id="modalClose1"
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="post" id="eventForm">
+              {% csrf_token %}
+              <div class="modal-body">
+                <!-- Size Dropdown -->
+                <div id="step-1">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="size">Size:</label>
+                      <select id="size" name="size" class="form-control" required>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label for="service_type">Service Type:</label>
+                      <select id="service_type" name="service_type" class="form-control" required>
+                        <option value="washDry">Wash & Dry</option>
+                        <option value="washTidy">Wash & Tidy</option>
+                        <option value="fullGroom">Full Groom</option>
+                        <option value="puppy">Puppy</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="booking_date">Booking Date:</label>
+                      <input id="booking_date" name="booking_date" type="date" class="form-control" required />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label for="booking_time">Booking Time:</label>
+                      <select id="booking_time" name="booking_time" class="form-control" required>
+                        <!-- Options via JS -->
+                      </select>
+                    </div>
+                  </div>
+
+                  <input type="hidden" id="estimated_time" name="estimated_time" />
+                  <input type="hidden" id="total_price" name="total_price" />
+
+
+                  <div class="form-group">
+                    <label>Add-Ons:</label><br />
+                    <div class="form-check" id="addon-dematting">
+                      <input class="form-check-input" type="checkbox" id="dematting" name="addons" value="dematting" />
+                      <label class="form-check-label" for="dematting">Dematting</label>
+                    </div>
+                    <div class="form-check" id="addon-deshedding">
+                      <input class="form-check-input" type="checkbox" id="deshedding" name="addons" value="deshedding" />
+                      <label class="form-check-label" for="deshedding">Deshedding</label>
+                    </div>
+                    <div class="form-check" id="addon-specialShampoo">
+                      <input class="form-check-input" type="checkbox" id="specialShampoo" name="addons" value="specialShampoo" />
+                      <label class="form-check-label" for="specialShampoo">Special Shampoo</label>
+                    </div>
+                    <div class="form-check" id="addon-nailClip">
+                      <input class="form-check-input" type="checkbox" id="nailClip" name="addons" value="nailClip" />
+                      <label class="form-check-label" for="nailClip">Nail Clip</label>
+                    </div>
+                    <div class="form-check" id="addon-analGland">
+                      <input class="form-check-input" type="checkbox" id="analGland" name="addons" value="analGland" />
+                      <label class="form-check-label" for="analGland">Anal Gland</label>
+                    </div>
+                    <div class="form-check" id="addon-teethBrushing">
+                      <input class="form-check-input" type="checkbox" id="teethBrushing" name="addons" value="teethBrushing" />
+                      <label class="form-check-label" for="teethBrushing">Teeth Brushing</label>
+                    </div>
+                    <div class="form-check" id="addon-flea_tick_shampoo">
+                      <input class="form-check-input" type="checkbox" id="flea_tick_shampoo" name="addons" value="flea_tick_shampoo" />
+                      <label class="form-check-label" for="flea_tick_shampoo">Flea & Tick Shampoo</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label style="font-weight: 600;">Estimated Time & Cost:</label>
+                    <span style="color: red; font-weight: 700;" id="total-estimate">
+                      Time: <span id="estimate-time">0 min</span> |
+                      Cost: <span id="estimate-cost">Rs. 0</span>
+                    </span>
+                  </div>
+                </div>  
+
+                <!-- STEP 2: Customer Info -->
+                <div id="step-2" style="display: none;">
+                  <div class="form-group">
+                    <label for="customer_name">Customer Name:</label>
+                    <input type="text" name="customer_name" id="customer_name" class="form-control" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="customer_phone">Customer Phone:</label>
+                    <input type="text" name="customer_phone" id="customer_phone" class="form-control" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="customer_email">Customer Email:</label>
+                    <input type="email" name="customer_email" id="customer_email" class="form-control" required />
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button id="modalClose2" type="button" class="btn btn-danger">
+                  Close
+                </button>
+                <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+                <button type="submit" id="saveBtn" class="btn btn-success" style="display: none;">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade show"
+        id="detailModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary">
+              <h5 class="modal-title text-white text-center w-100" id="title_event_detail"></h5>
+              <button
+                id="modalDetailClose"
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="">
+              {% csrf_token %}
+              <div class="modal-body">
+
+                <!-- Size & Services -->
+                <div class="d-flex justify-content-between mb-2">
+                  <span><strong>Size:</strong> <span id="size_event_detail"></span></span>
+                  <span><strong>Services:</strong> <span id="service_event_detail"></span></span>
+                </div>
+
+                <!-- Start -->
+                <div class="mb-2">
+                  <span><strong>Start:</strong> <span id="start_event_detail"></span></span>
+                </div>
+
+                <!-- Add-on -->
+                <div class="mb-2">
+                  <span><strong>Add-on:</strong> <span id="addons_event_detail"></span></span>
+                </div>
+
+                <!-- Customer Name & Contact No -->
+                <div class="d-flex justify-content-between mb-2">
+                  <span><strong>Customer Name:</strong> <span id="customer_name_event_detail"></span></span>
+                  <span><strong>Contact No:</strong> <span id="contact_no_event_detail"></span></span>
+                </div>
+
+              </div>
+
+              <div class="modal-footer">
+                <button id="delete-event-button" data-event-id="" type="button" class="btn btn-danger">Delete</button>    
+                <button
+                  id="add-to-next-month"
+                  data-event-id-month=""
+                  type="button"
+                  class="btn btn-success"
+                >
+                  Next Month
+                </button>
+                <button
+                  id="add-to-next-day"
+                  data-event-id-day=""
+                  type="button"
+                  class="btn btn-primary"
+                >
+                  Next Day
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loop through Django messages and pass to JS -->
+<script>
+    const djangoMessages = [];
+    {% if messages %}
+        {% for message in messages %}
+            djangoMessages.push({
+                level: "{{ message.tags }}",
+                message: "{{ message|escapejs }}"
+            });
+        {% endfor %}
+    {% endif %}
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const nextBtn = document.getElementById("nextBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const step1 = document.getElementById("step-1");
+    const step2 = document.getElementById("step-2");
+    const form = document.getElementById("eventForm");
+    const modalClose1 = document.getElementById("modalClose1");
+    const modalClose2 = document.getElementById("modalClose2");
+    const eventModal = document.getElementById("eventModal");
+
+    // Handle NEXT button
+    nextBtn.addEventListener("click", function () {
+      const requiredFields = step1.querySelectorAll("select, input");
+      let isValid = true;
+      requiredFields.forEach(field => {
+        if (!field.checkValidity()) {
+          field.classList.add("is-invalid");
+          isValid = false;
+        } else {
+          field.classList.remove("is-invalid");
+        }
+      });
+
+      if (isValid) {
+        step1.style.display = "none";
+        step2.style.display = "block";
+        nextBtn.style.display = "none";
+        saveBtn.style.display = "inline-block";
+      }
+    });
+
+    // Reset modal state
+    function resetModal() {
+      console.log("Resetting modal state...");
+      form.reset();
+      step1.style.display = "block";
+      step2.style.display = "none";
+      nextBtn.style.display = "inline-block";
+      saveBtn.style.display = "none";
+      form.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
+    }
+
+    // Close modal and reload page
+    function closeModalAndReload() {
+      console.log("Closing modal and reloading...");
+      // Move focus to body to avoid aria-hidden issue
+      document.body.focus();
+      // Hide modal
+      eventModal.style.display = "none";
+      eventModal.setAttribute("aria-hidden", "true");
+      // Remove Bootstrap backdrop if present
+      const backdrop = document.querySelector(".modal-backdrop");
+      if (backdrop) backdrop.remove();
+      // Remove modal-open class from body
+      document.body.classList.remove("modal-open");
+      // Reset modal state
+      resetModal();
+      // Reload page
+      window.location.reload();
+    }
+
+    // Handle "X" button click
+    if (modalClose1) {
+      modalClose1.addEventListener("click", function () {
+        console.log("X button clicked");
+        closeModalAndReload();
+      });
+    }
+
+    // Handle "Close" button click
+    if (modalClose2) {
+      modalClose2.addEventListener("click", function () {
+        console.log("Close button clicked");
+        closeModalAndReload();
+      });
+    }
+
+    // Handle modal show to reset state
+    eventModal.addEventListener("transitionend", function (e) {
+      if (e.propertyName === "opacity" && eventModal.style.display === "block") {
+        console.log("Modal opening...");
+        resetModal();
+        // Set focus to first input for accessibility
+        const firstInput = eventModal.querySelector("input, select");
+        if (firstInput) firstInput.focus();
+      }
+    });
+
+    // Open modal handler (replace Bootstrap data-toggle if needed)
+    const addButton = document.querySelector('button[data-target="#eventModal"]');
+    if (addButton) {
+      addButton.addEventListener("click", function () {
+        console.log("Add button clicked, opening modal...");
+        eventModal.style.display = "block";
+        eventModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+        // Create and append backdrop
+        const backdrop = document.createElement("div");
+        backdrop.className = "modal-backdrop fade show";
+        document.body.appendChild(backdrop);
+      });
+    }
+
+    // Handle clicking outside modal to close
+    eventModal.addEventListener("click", function (e) {
+      if (e.target === eventModal) {
+        console.log("Clicked outside modal");
+        closeModalAndReload();
+      }
+    });
+
+    // Focus trapping for accessibility
+    eventModal.addEventListener("keydown", function (e) {
+      if (e.key === "Tab") {
+        const focusableElements = eventModal.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    });
+  });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        if (typeof djangoMessages !== 'undefined') {
+            djangoMessages.forEach(msg => {
+                if (msg.level === 'success') {
+                    toastr.success(msg.message);
+                } else if (msg.level === 'error') {
+                    toastr.error(msg.message);
+                } else if (msg.level === 'warning') {
+                    toastr.warning(msg.message);
+                } else {
+                    toastr.info(msg.message);
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock content %} {% block extrascripts %}
+{{ booked_slots|json_script:"bookedSlotsData" }}
+<script src="{% static 'calender/main.js' %}"></script>
+<script>
+        const bookedSlots = JSON.parse(document.getElementById('bookedSlotsData').textContent);
+        console.log("Booked Slots:", bookedSlots);
+
+        function checkSlotAvailability() {
+          const date = document.getElementById('booking_date').value;
+          const time = document.getElementById('booking_time').value;
+          const warningDiv = document.getElementById('slot-warning');
+          const saveButton = document.querySelector('button[type="submit"]');
+
+          const isBooked = bookedSlots.some(slot => {
+            return slot.booking_date === date && slot.booking_time === time;
+          });
+
+          if (isBooked) {
+            warningDiv.style.display = 'block';
+            warningDiv.textContent = '⚠️ This time slot is already booked. Please choose another time.';
+            if (saveButton) saveButton.disabled = true;
+            return false;
+          } else {
+            warningDiv.style.display = 'none';
+            warningDiv.textContent = '';
+            if (saveButton) saveButton.disabled = false;
+            return true;
+          }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const dateInput = document.getElementById('booking_date');
+          const timeInput = document.getElementById('booking_time');
+
+          if (dateInput && timeInput) {
+            dateInput.addEventListener('change', checkSlotAvailability);
+            timeInput.addEventListener('change', checkSlotAvailability);
+          }
+        });
+
+
+
+        
+        const form = document.getElementById('eventForm');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            const isAvailable = checkSlotAvailability();
+            if (!isAvailable) {
+              e.preventDefault(); // Stop form submission
+            }
+          });
+        }
+        
+
+      function formatLocalDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+      }
+
+      
+        function converterDataParaDjangoFormat(data) {
+            const startDate = new Date(arg.start);
+            const dataJS = new Date(data);
+            const year = dataJS.getFullYear();
+            const month = (dataJS.getMonth() + 1).toString().padStart(2, '0');
+            const day = dataJS.getDate().toString().padStart(2, '0');
+            const hour = dataJS.getHours().toString().padStart(2, '0');
+            const minute = dataJS.getMinutes().toString().padStart(2, '0');
+            const second = dataJS.getSeconds().toString().padStart(2, '0');
+            const timeStr = `${hours}:${minutes}`;
+            const formatoDjango = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+            return formatoDjango;
+
+        }
+          document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var today = new Date();
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
+                },
+                initialDate: today,
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                timeZone: 'local', // Use the browser's local timezone to respect the provided ISO 8601 strings
+                select: function(arg) {
+                    console.log('clicked', arg.start);
+                    console.log(arg.start);
+                    console.log(arg.end);
+                    var modal = document.getElementById('eventModal');
+                    modal.style.display = 'block';
+
+                    const startDate = new Date(arg.start);
+                    const dateStr = formatLocalDate(startDate);
+                    const hours = startDate.getHours().toString().padStart(2, '0');
+                    const minutes = startDate.getMinutes().toString().padStart(2, '0');
+                    const timeStr = `${hours}:${minutes}`;
+
+                    document.getElementById('booking_date').value = dateStr;
+                    document.getElementById('booking_time').value = timeStr;
+
+                    populateBookingTimesForDate(dateStr, null);
+                    checkSlotAvailability();
+                    updateEstimate();
+                    calendar.unselect();
+                },
+                eventClick: function(arg) {
+                    console.log('clicked');
+                    var title = arg.event.title;
+                    var start = formatDateTime(arg.event.start);
+                    var size = arg.event.extendedProps.size || ''; // Extract size
+                    var service = arg.event.extendedProps.service || ''; // Extract service
+                    var addons = arg.event.extendedProps.addons || ''; // Extract addons
+                    var contact_no = arg.event.extendedProps.contact_no || '';
+                    var customer_name = arg.event.extendedProps.customer_name || '';
+                    var id = arg.event.id;
+
+                    var modal = document.getElementById('detailModal');
+                    var modalTitle = document.getElementById('title_event_detail');
+                    var modalStart = document.getElementById('start_event_detail');
+                    var modalCustomerName = document.getElementById('customer_name_event_detail');
+                    var modalSize = document.getElementById('size_event_detail'); // ID for size
+                    var modalService = document.getElementById('service_event_detail'); // ID for service
+                    var modalAddons = document.getElementById('addons_event_detail'); // ID for addons
+                    var modalContact = document.getElementById('contact_no_event_detail');
+                    var deleteButton = document.getElementById("delete-event-button");
+                    var nextMonth = document.getElementById("add-to-next-month");
+                    var nextDay = document.getElementById("add-to-next-day");
+
+                    deleteButton.setAttribute("data-event-id", id);
+                    nextMonth.setAttribute("data-event-id-month", id);
+                    nextDay.setAttribute("data-event-id-day", id);
+                    $('#detailModal').modal('show');
+
+                    modalTitle.textContent = title;
+                    modalStart.textContent = start;
+                    modalSize.textContent = size; // Set size
+                    modalService.textContent = service; // Set service
+                    modalAddons.textContent = addons; // Set addons
+                    modalContact.textContent = contact_no;
+                    modalCustomerName.textContent = customer_name;
+                },
+                editable: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: {{ events|safe }},
+                eventTimeFormat: {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                }
+            });
+
+            calendar.render();
+
+            // Existing event listeners for modals and other functionality remain unchanged
+            document.getElementById('booking_date').addEventListener('change', function() {
+                populateBookingTimesForDate(this.value);
+                checkSlotAvailability();
+            });
+
+            document.getElementById('modalClose1').addEventListener('click', () => {
+                const eventModal = document.getElementById('eventModal');
+                eventModal.style.display = 'none';
+            });
+
+            document.getElementById('modalClose2').addEventListener('click', () => {
+                const eventModal = document.getElementById('eventModal');
+                eventModal.style.display = 'none';
+            });
+
+            document.getElementById('modalDetailClose').addEventListener('click', () => {
+                const eventModal = document.getElementById('detailModal');
+                eventModal.style.display = 'none';
+            });
+
+            document.getElementById('delete-event-button').addEventListener('click', function() {
+              const bookingId = this.getAttribute('data-event-id');
+              if (confirm('Are you sure you want to delete this booking?')) {
+                  $.ajax({
+                      url: `/calendarapp/delete_booking/${bookingId}/`,
+                      type: 'POST',
+                      data: {
+                          csrfmiddlewaretoken: '{{ csrf_token }}',
+                      },
+                      success: function(response) {    
+                          toastr.success(response.message);
+                          $('#detailModal').modal('hide');
+                          setTimeout(function() {
+                              window.location.reload();
+                          }, 1000); // Delay for readability
+                          
+                      },
+                      error: function(xhr, status, error) {
+                          console.error('Delete error:', xhr.status, error, xhr.responseText);
+                          let errorMessage = 'An error occurred while deleting the booking.';
+                          if (xhr.status === 403) {
+                              errorMessage = 'You do not have permission to delete this booking.';
+                          } else if (xhr.status === 404) {
+                              errorMessage = 'Booking not found.';
+                          }
+                          toastr.error(errorMessage);
+                      }
+                  });
+              }
+          });
+
+
+            document.getElementById('add-to-next-month').addEventListener('click', function() {
+              const bookingId = this.getAttribute('data-event-id-month');
+              if (confirm('Are you sure you want to create a new booking for next month?')) {
+                  $.ajax({
+                      url: `/calendarapp/next_month/${bookingId}/`,
+                      type: 'POST',
+                      data: {
+                          csrfmiddlewaretoken: '{{ csrf_token }}',
+                      },
+                      success: function(response) {
+                          toastr.success(response.message || 'New booking successfully created for next month.');
+                          $('#detailModal').modal('hide');
+                          setTimeout(function() {
+                              window.location.reload();
+                          }, 1000); // Delay for readability
+                      },
+                      error: function(xhr, status, error) {
+                          console.error('Next Month error:', xhr.status, error, xhr.responseText);
+                          let errorMessage = 'An error occurred while creating the new booking.';
+                          if (xhr.status === 403) {
+                              errorMessage = 'You do not have permission to create a new booking.';
+                          } else if (xhr.status === 404) {
+                              errorMessage = 'Original booking not found.';
+                          } else if (xhr.status === 400) {
+                              errorMessage = xhr.responseJSON?.message || 'Invalid request.';
+                          }
+                          toastr.error(errorMessage);
+                      }
+                  });
+              }
+          });
+
+            document.getElementById('add-to-next-day').addEventListener('click', function() {
+                const bookingId = this.getAttribute('data-event-id-day');
+                if (confirm('Are you sure you want add this booking to next day?')) {
+                    $.ajax({
+                        url: `/calendarapp/next_day/${bookingId}/`,
+                        type: 'POST',
+                        data: {
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                        },
+                        success: function(response) {
+                            toastr.success(response.message || 'Booking successfully moved to the next day.');
+                            $('#detailModal').modal('hide');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1000); // Delay for readability
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Next Day error:', xhr.status, error, xhr.responseText);
+                            let errorMessage = 'An error occurred while moving the booking to the next day.';
+                            if (xhr.status === 403) {
+                                errorMessage = 'You do not have permission to move this booking.';
+                            } else if (xhr.status === 404) {
+                                errorMessage = 'Booking not found.';
+                            } else if (xhr.status === 400) {
+                                errorMessage = xhr.responseJSON?.message || 'Invalid request.';
+                            }
+                            toastr.error(errorMessage);
+                        }
+                    });
+                }
+            });
+        });
+
+        // Updated formatDateTime function to ensure local timezone display
+        function formatDateTime(dateTime) {
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
+                timeZone: 'Asia/Kathmandu' // Explicitly set to match Django's TIME_ZONE
+            };
+            return new Date(dateTime).toLocaleString('en-US', options);
+        }
+
+
+        
+      const durations = {
+        washDry: { 'XS': 45, 'S': 60, 'M': 90, 'L': 120 },
+        washTidy: { 'XS': 60, 'S': 75, 'M': 90, 'L': 120 },
+        fullGroom: { 'XS': 90, 'S': 120, 'M': 150, 'L': 210 },
+        puppy: { 'XS': 60, 'S': 60, 'M': 60, 'L': 60 }
+      };
+
+      const basePrices = {
+        washDry: { 'XS': 950, 'S': 1450, 'M': 1800, 'L': 2250 },
+        washTidy: { 'XS': 1200, 'S': 1870, 'M': 2350, 'L': 2600 },
+        fullGroom: { 'XS': 1500, 'S': 2060, 'M': 2500, 'L': 2950 },
+        puppy: { 'XS': 1600, 'S': 1600, 'M': 1600, 'L': 1600 }
+      };
+
+      const addOnPrices = {
+        deshedding: { price: 500, time: 15 },
+        specialShampoo: { price: 500, time: 0 },
+        nailClip: { price: 250, time: 5 },
+        analGland: { price: 600, time: 5 },
+        teethBrushing: { price: 250, time: 5 },
+        dematting: { price: 500, time: 15 },
+        flea_tick_shampoo: { price: 500, time: 0 }
+      };
+
+      function updateEstimate() {
+        const service = document.getElementById("service_type").value;
+        const size = document.getElementById("size").value;
+
+        let time = 0;
+        let cost = 0;
+
+        if (durations[service] && durations[service][size]) {
+          time = durations[service][size];
+          cost = basePrices[service][size];
+        }
+
+
+          // Define which add-ons to hide based on the selected service
+        let hiddenAddOns = [];
+
+        if (service === "fullGroom") {
+          hiddenAddOns = ["deshedding", "dematting", "nailClip"];
+        } else if (service === "puppy") {
+          hiddenAddOns = ["deshedding", "dematting", "analGland", "nailClip"];
+        }
+
+        // Loop through all add-ons and show/hide based on the hidden list
+        Object.keys(addOnPrices).forEach(key => {
+          const wrapper = document.getElementById(`addon-${key}`);
+          const checkbox = document.getElementById(key);
+          if (wrapper) {
+            if (hiddenAddOns.includes(key)) {
+              wrapper.style.display = "none";
+              if (checkbox) checkbox.checked = false;
+            } else {
+              wrapper.style.display = "block";
+            }
+          }
+        });
+
+        // Add-ons
+        const selectedAddOns = document.querySelectorAll('input[name="addons"]:checked');
+        selectedAddOns.forEach(addon => {
+          const key = addon.value;
+          if (addOnPrices[key]) {
+            time += addOnPrices[key].time;
+            cost += addOnPrices[key].price;
+          }
+        });
+
+        document.getElementById("total-estimate").innerHTML = `<strong>Time:</strong> ${time} min | <strong>Cost:</strong> Rs. ${cost}`;
+
+        document.getElementById("estimated_time").value = time;
+        document.getElementById("total_price").value = cost;
+      }
+
+      // Attach event listeners
+      document.getElementById("service_type").addEventListener("change", updateEstimate);
+      document.getElementById("size").addEventListener("change", updateEstimate);
+      document.querySelectorAll('input[name="addons"]').forEach(cb => {
+        cb.addEventListener("change", updateEstimate);
+      });
+
+      // Initialize estimate once modal opens (in case default values are selected)
+      document.getElementById("eventModal").addEventListener("show", updateEstimate);
+      document.getElementById("eventModal").addEventListener("transitionend", updateEstimate);
+      document.getElementById('booking_date').addEventListener('change', checkSlotAvailability);
+      document.getElementById('booking_time').addEventListener('change', checkSlotAvailability);
+
+  
+  
+</script>
+
+<script>
+document.getElementById("booking_date").addEventListener("change", function () {
+  populateBookingTimesForDate(this.value);
+});
+
+
+  // Convert ISO datetime objects into a usable format for lookup
+// Convert ISO datetime objects into a usable format for lookup
+function getBookedTimeMap(bookedSlots) {
+  const bookedMap = {};
+
+  bookedSlots.forEach(slot => {
+    const dt = new Date(slot.date_time); // ISO datetime
+    const dateStr = dt.toISOString().slice(0, 10); // 'YYYY-MM-DD'
+    const timeStr = dt.toTimeString().slice(0, 5); // 'HH:MM'
+
+    if (!bookedMap[dateStr]) {
+      bookedMap[dateStr] = new Set();
+    }
+    bookedMap[dateStr].add(timeStr);
+  });
+
+  return bookedMap;
+}
+
+const bookedTimeMap = getBookedTimeMap(bookedSlots);
+
+// Main function to populate time dropdown
+function populateBookingTimesForDate(selectedDate, defaultTime = null) {
+  const select = document.getElementById('booking_time');
+  const previousSelectedTime = select.value || defaultTime;
+  select.innerHTML = '';
+
+  const start = 9 * 60;
+  const end = 17 * 60;
+  const interval = 15;
+
+  let hasAvailable = false;
+  let selectedTimeStillAvailable = false;
+
+  const bookedTimesForDate = bookedTimeMap[selectedDate] || new Set();
+
+  for (let mins = start; mins <= end; mins += interval) {
+    const hours = Math.floor(mins / 60);
+    const minutes = mins % 60;
+    const time24 = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
+    const isBooked = bookedTimesForDate.has(time24);
+
+    if (!isBooked) {
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const hour12 = hours % 12 === 0 ? 12 : hours % 12;
+      const timeLabel = `${hour12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+
+      const option = document.createElement('option');
+      option.value = time24;
+      option.textContent = timeLabel;
+      select.appendChild(option);
+
+      hasAvailable = true;
+
+      if (time24 === previousSelectedTime) {
+        selectedTimeStillAvailable = true;
+      }
+    }
+  }
+
+  if (hasAvailable) {
+    if (selectedTimeStillAvailable) {
+      select.value = previousSelectedTime;
+    } else {
+      select.selectedIndex = 0;
+    }
+    checkSlotAvailability?.();
+  } else {
+    const option = document.createElement('option');
+    option.textContent = 'No available times';
+    option.disabled = true;
+    select.appendChild(option);
+  }
+}
+
+</script>
+
+
+<script>
+  $('#detailModal').on('hidden.bs.modal', function () {
+    window.location.reload();
+  });
+</script>
+
+
+{% endblock extrascripts %}

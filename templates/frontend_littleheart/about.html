@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  .about-hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .about-hero img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+  }
+  .about-hero h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #d33900;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .about-description {
+    padding: 2rem 4vw;
+    max-width: 1800px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.07rem;
+    font-weight: 500;
+    line-height: 1.8;
+  }
+
+  .about-description p {
+    margin-bottom: 1rem;
+  }
+
+  .our-works {
+    padding: 2rem 4vw;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .our-works h3 {
+    color: #d33900;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 15px;
+  }
+
+  .gallery-grid img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .img1 {
+    grid-column: span 12;
+    height: 450px;
+  }
+  .img2 {
+    grid-column: span 6;
+  }
+  .img3 {
+    grid-column: span 6;
+  }
+  .img4 {
+    grid-column: span 4;
+  }
+  .img5 {
+    grid-column: span 4;
+  }
+  .img6 {
+    grid-column: span 4;
+  }
+  .img7 {
+    grid-column: span 12;
+    height: 550px;
+  }
+
+  .img1, .img7 {
+    width: 200px;
+  height: 450px;
+  object-fit: scale-down;
+  }
+
+  .img1:hover {
+  transform: scale(1.05);
+  transition: transform 3s ease;
+  translate: 4px 0;
+  }
+  .img2:hover {
+  transform: scale(1.05);
+    transition: transform 3s ease;
+  translate: 4px 0;
+  }
+  .img3:hover {
+  transform: scale(1.05);
+    transition: transform 3s ease;
+  translate: 4px 0;
+  }
+  .img4:hover {
+  transform: scale(1.05);
+    transition: transform 3s ease;
+  translate: 4px 0;
+  }
+  .img5:hover {
+  transform: scale(1.05);
+    transition: transform 3s ease;
+  translate: 4px 0;
+  }
+  .img6:hover {
+  transform: scale(1.05);
+    transition: transform 3s ease;
+  translate: 4px 0;
+  }
+  .img7:hover {
+  transform: scale(1.05);
+    transition: transform 3s ease;
+  translate: 4px 0;
+  }
+
+  @media (max-width: 992px) {
+    .img1, .img7 {
+      height: 200px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .gallery-grid img {
+      grid-column: span 2 !important;
+      height: auto !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-hero h2 {
+      font-size: 1.8rem;
+    }
+    .about-description {
+      font-size: 1rem;
+      padding: 1rem;
+    }
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+    .gallery-grid img {
+      grid-column: span 1 !important;
+      height: auto !important;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<div class="about-hero">
+  <img src="{% static 'images/about.webp' %}" alt="Cool Dog in Glasses">
+  <h2>About Us</h2>
+</div>
+
+<!-- Description Section -->
+<div class="about-description">
+  <p>
+    At Little Heart Pet Shop, we believe every pet deserves to feel pampered, loved, and cared for—just like family.
+    With a blend of grooming expertise and love for animals, we work with clean aesthetics, calm vibes, and nurturing
+    environment for your furry companions.
+  </p>
+  <p>
+    Our lead groomer is a Certified Professional Groomer from the Australian Dog Grooming School and has years of
+    experience in leading Australian grooming salons. At Little Heart, we focus on personalized care and one-on-one
+    pet sessions, where we adapt each grooming session to not only address appearance but also comfort, health and
+    peace of mind.
+  </p>
+  <p>
+    We use premium grooming tools and high-quality products to deliver salon-standard results with a personal touch.
+    From their first haircut to their routine care, at our grooming sessions, we tailor each session to your pet’s
+    individual needs.
+  </p>
+  <p>
+    Whether it’s their first bath or their regular tidy-up, your pet is in expert hands.<br>
+    Your pet’s comfort leads the way in our journey.
+  </p>
+</div>
+
+<!-- Our Works Section -->
+<div class="our-works">
+  <h3>Our Works</h3>
+  <div class="gallery-grid">
+    <img src="{% static 'images/IMG_8897.jpeg' %}" alt="Work 1" class="img1">
+    <img src="{% static 'images/IMG_8806.jpeg' %}" alt="Work 2" class="img2">
+    <img src="{% static 'images/IMG_9031.jpeg' %}" alt="Work 3" class="img3">
+    <img src="{% static 'images/IMG_6551.jpeg' %}" alt="Work 4" class="img4">
+    <img src="{% static 'images/IMG_6579.jpeg' %}" alt="Work 5" class="img5">
+    <img src="{% static 'images/IMG_9107.jpeg' %}" alt="Work 6" class="img6">
+    <img src="{% static 'images/IMG_0198.jpeg' %}" alt="Work 2" class="img2">
+    <img src="{% static 'images/IMG_0202.jpeg' %}" alt="Work 3" class="img3">
+    <img src="{% static 'images/IMG_8678.jpeg' %}" alt="Work 7" class="img7">
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,869 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<title>Pet Booking Form</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .hero {
+    width: 100%;
+    height: 250px;
+    background: url('https://images.unsplash.com/photo-1546238232-20216dec9f72?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y3V0ZSUyMGRvZ3xlbnwwfHwwfHx8MA%3D%3D') center/cover no-repeat;
+    margin-bottom: 2rem;
+  }
+
+  .booking-container {
+    max-width: 1200px;
+    margin: -100px auto 2rem;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .booking-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: #ddd;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  .form-section {
+    flex: 1 1 48%;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .form-section h2 {
+    font-size: 1.8rem;
+    color: #d33900;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  label {
+    display: block;
+    margin: 0.25rem 0 0.5rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="email"]:focus,
+  input[type="date"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #d33900;
+    outline: none;
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #555;
+    gap: 0.5rem;
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  button {
+    background-color: #D84315;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    position: relative;
+  }
+
+  button:hover {
+    background-color: #bb2f00;
+    transform: translateY(-2px);
+  }
+
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .loader {
+    display: none;
+    width: 80px;
+    height: 80px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #D84315;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .button-with-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .estimate-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .estimate-item {
+    text-align: center;
+    flex: 1;
+  }
+
+  .estimate-item h4 {
+    margin: 0 0 0.25rem;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .estimate-item p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #d33900;
+    font-weight: 700;
+  }
+
+  .estimate-item.time {
+    border-right: 1px solid #e0e0e0;
+    padding-right: 1rem;
+  }
+
+  .time-slot-message {
+    color: #D32F2F;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+  }
+
+  .modal-content {
+    background: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .modal-content h2 {
+    color: #D84315;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border-bottom: 3px solid #D84315;
+    padding-bottom: 10px;
+  }
+
+  .modal-content p {
+    color: #444;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .modal-content ul {
+    text-align: left;
+    margin: 0 0 1rem 15px;
+    color: #555;
+    font-size: 0.9rem;
+  }
+
+  .modal-content h3 {
+    color: #D84315;
+    font-size: 1.3rem;
+    margin: 1rem 0 0.75rem;
+    font-weight: 600;
+  }
+
+  .modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #D84315;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .modal-content .close:hover {
+    color: #bb2f00;
+    transform: rotate(90deg);
+  }
+
+  .qr-code-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+
+  .qr-code-container img {
+    max-width: 200px;
+    border: 4px solid #f0f0f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .qr-code-container img:hover {
+    transform: scale(1.05);
+  }
+
+  .download-btn {
+    background-color: #D84315;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .download-btn:hover {
+    background-color: #bb2f00;
+    transform: translateY(-2px);
+  }
+
+  .accept-btn {
+    background-color: #D84315;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .accept-btn:hover {
+    background-color: #bb2f00;
+    transform: translateY(-2px);
+  }
+
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: 768px) {
+    .booking-container {
+      flex-direction: column;
+      margin: -50px auto 1.5rem;
+      padding: 1rem;
+    }
+
+    .booking-container::after {
+      display: none;
+    }
+
+    .form-section {
+      padding: 0;
+      flex: 1 1 100%;
+    }
+
+    .estimate-card {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .estimate-item.time {
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 0.75rem;
+    }
+
+    .modal-content {
+      margin: 10% auto;
+      width: 90%;
+      padding: 15px;
+      max-width: 100%;
+    }
+
+    .modal-content h2 {
+      font-size: 1.3rem;
+    }
+
+    .modal-content h3 {
+      font-size: 1.1rem;
+    }
+
+    .qr-code-container img {
+      max-width: 180px;
+    }
+
+    .download-btn, .accept-btn {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .modal-content {
+      margin: 15% auto;
+      padding: 10px;
+    }
+
+    .modal-content h2 {
+      font-size: 1.1rem;
+    }
+
+    .modal-content p {
+      font-size: 0.9rem;
+    }
+
+    .qr-code-container img {
+      max-width: 150px;
+    }
+
+    .download-btn, .accept-btn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+  }
+
+  #error-message {
+    color: #D32F2F;
+    display: none;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+</style>
+
+<div class="hero"></div>
+
+<div class="booking-container">
+  {% csrf_token %}
+  <!-- Left: Booking Details -->
+  <div class="form-section">
+    <h2><strong>Book for your fav pets</strong></h2>
+
+    <label>Select Pet Size <span style="color: red;">*</span></label>
+    <select id="pet-size" required>
+      <option value="">Select Pet Size</option>
+      <option value="XS">XS</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+    </select>
+
+    <label>Select Service Type <span style="color: red;">*</span></label>
+    <select id="service-type" required>
+      <option value="">Select Service Type</option>
+      <option value="puppy_bath">Puppy's First Bath</option>
+      <option value="wash_dry">Wash & Dry</option>
+      <option value="wash_tidy">Wash & Tidy</option>
+      <option value="full_groom">Full Groom</option>
+    </select>
+    <div id="service-description" class="service-description"></div>
+
+    <label>Add-ons (Optional)</label>
+    <div class="checkbox-group" id="add-ons">
+      <label><input type="checkbox" value="dematting"> De-matting (Rs 500+, +15 min)</label>
+      <label><input type="checkbox" value="deshedding"> De-shedding (Rs 500+, +15 min)</label>
+      <label><input type="checkbox" value="special_shampoo"> Special Shampoo (Rs 500)</label>
+      <em>Note: Special shampoo is used for pets with skin issues or allergies.</em>
+      <label><input type="checkbox" value="flea_tick_shampoo"> Flea & Tick Shampoo (Rs 500)</label>
+      <label><input type="checkbox" value="nail_trim"> Nail Trim (Rs 250, +5 min)</label>
+      <label><input type="checkbox" value="teeth_brush"> Teeth Brushing (Rs 250, +5 min)</label>
+      <label><input type="checkbox" value="anal_gland"> Anal Gland Expression (Rs 600, +5 min)</label>
+    </div>
+
+    <label>Notes (Medical Conditions, Behaviour)</label>
+    <textarea id="notes" rows="4" placeholder="Optional notes..."></textarea>
+
+    <label>Select Date <span style="color: red;">*</span></label>
+    <input type="date" id="booking-date" min="{{ today|date:'Y-m-d' }}" max="{{ max_date|date:'Y-m-d' }}" required>
+
+    <label>Select Time <span style="color: red;">*</span></label>
+    <select id="time-select" required>
+      <option value="">Select a time</option>
+    </select>
+    <div class="time-slot-message" id="time-slot-message"></div>
+
+    <label>Estimated Time & Cost</label>
+    <div class="estimate-card" id="estimate-display">
+      <div class="estimate-item time">
+        <h4>Estimated Time</h4>
+        <p id="estimated-time">0 min</p>
+      </div>
+      <div class="estimate-item cost">
+        <h4>Estimated Cost</h4>
+        <p id="estimated-cost">Rs 0</p>
+      </div>
+    </div>
+    <div id="error-message"></div>
+
+  </div>
+
+  <!-- Right: Customer Details -->
+  <div class="form-section">
+    <h2><strong>Customer Details</strong></h2>
+
+    <label>Customer Name <span style="color: red;">*</span></label>
+    <input type="text" id="customer-name" placeholder="Enter your name" required>
+
+    <label>Phone Number <span style="color: red;">*</span></label>
+    <input type="tel" id="phone-number" placeholder="98XXXXXXXX" required>
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <div class="button-with-loader">
+      <button type="button" id="book-button" onclick="showAgreementPopup()">Book Appointment</button>
+      <span class="loader" id="loading-spinner"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Grooming Agreement -->
+<div id="agreementModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAgreementPopup()">×</span>
+    <h2>Little Heart Pet Shop – Grooming Policy</h2>
+    <p>To ensure the safety, comfort, and well-being of all pets and groomers, we kindly request all clients to review and follow our grooming policy:</p>
+    
+    <h3>🐾 Appointments & Cancellations</h3>
+    <ul>
+      <li>All grooming sessions are by appointment only.</li>
+      <li>Please arrive on time. Late arrivals over 15 minutes may need to be rescheduled.</li>
+      <li>We require at least 24 hours' notice for cancellations or rescheduling. No-shows may incur a cancellation fee.</li>
+    </ul>
+
+    <h3>🐾 Pet Health & Vaccination</h3>
+    <ul>
+      <li>Pets must be up-to-date on core vaccinations (rabies, distemper, etc.).</li>
+      <li>You may be required to provide a valid vaccination card upon request.</li>
+      <li>Please inform us of any medical conditions, skin issues, recent surgeries, or behavioral concerns.</li>
+      <li>We reserve the right to refuse service if a pet is showing signs of illness or aggressive behavior.</li>
+    </ul>
+
+    <h3>🐾 Fleas & Ticks</h3>
+    <ul>
+      <li>If fleas or ticks are found during grooming, a flea bath will be performed at an additional cost.</li>
+      <li>Heavily infested pets may be refused for the safety of other animals.</li>
+    </ul>
+
+    <h3>🐾 Aggressive or Difficult Pets</h3>
+    <ul>
+      <li>Please notify us if your pet has a history of aggression or is nervous about grooming.</li>
+      <li>Extra handling fees may apply.</li>
+      <li>In severe cases, grooming may be stopped for the safety of your pet and our staff.</li>
+    </ul>
+
+    <h3>🐾 Owner Presence During Grooming</h3>
+<ul>
+  <li>For safety and comfort, owners are not allowed to stay during grooming.</li>
+  <li>Pets often become anxious or overly excited around their owners, which can make grooming more difficult and risky.</li>
+  <li>A calm environment helps your pet settle faster and allows our groomers to work more safely and efficiently.</li>
+  <li>Rest assured, your pet is in gentle, professional hands at all times.</li>
+  <li>If an owner insists on staying and is exceptionally permitted, they will be fully responsible for any accident, injury, or damage that may occur during the session — whether to the groomer, the pet, or any store property caused by excitement, stress, or unexpected behavior from the pet.</li>
+</ul>
+
+
+    <h3>🐾 Matted Coats & Shaving</h3>
+    <ul>
+      <li>Severely matted pets may require shaving to prevent discomfort, skin issues, or injury.</li>
+      <li>Our groomers will always do what is safest and most comfortable for your pet.</li>
+      <li>Additional charges may apply due to extra time, equipment wear, and grooming complexity.</li>
+    </ul>
+
+    <h3>🐾 Pick-Up Policy</h3>
+    <ul>
+      <li>Please pick up your pet within 30 minutes of being notified that grooming is complete.</li>
+      <li>A daycare fee of Rs. 100 per 30 minutes may apply depending on the delay and distance.</li>
+    </ul>
+
+   <h3>🐾 Satisfaction Guarantee</h3>
+<ul>
+  <li>If you are not satisfied with the grooming, please let us know before leaving the shop. We’re happy to make reasonable adjustments on the spot.</li>
+  <li>Once the session is complete and your pet has left the premises, we will not accept any complaints or requests for adjustments. All concerns must be addressed while still at the shop, before taking your pet home.</li>
+</ul>
+
+
+    <p><strong>📍 Location:</strong> Amarsingh Chowk, Annapurna Marga, Pokhara - 12</p>
+    <p><strong>📞 Phone:</strong> 9769493602</p>
+    <p><strong>📧 Email:</strong> littleheartpetshop@gmail.com</p>
+    <p>Thank you for trusting Little Heart Pet Shop with your beloved companion!</p>
+
+    <button class="accept-btn" onclick="acceptAgreement()">I Accept the Grooming Policy</button>
+  </div>
+</div>
+
+<!-- Modal for QR Code on Redirect Page -->
+<div id="qrModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeQrModal()">×</span>
+    <h2>Booking Confirmation</h2>
+    <p>Your booking has been successfully completed. Scan or download the QR code below for details.</p>
+    <div class="qr-code-container">
+      <img id="qr-code-image" alt="Booking QR Code">
+    </div>
+    <button class="download-btn" onclick="downloadQRCode()">Download QR Code</button>
+  </div>
+</div>
+
+<script>
+  // Ensure CSRF token is available
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+  if (!csrfToken) {
+      console.warn('CSRF token not found. Ensure {% csrf_token %} is included in the template.');
+  }
+
+  // Initial date setup
+  const bookingDateInput = document.getElementById('booking-date');
+  if (bookingDateInput) {
+      bookingDateInput.value = "{{ today|date:'Y-m-d' }}";
+  }
+
+  // Populate time slots dynamically
+  async function updateTimeSlots() {
+    const dateInput = document.getElementById('booking-date');
+    const timeSelect = document.getElementById('time-select');
+    const timeSlotMessage = document.getElementById('time-slot-message');
+    if (!dateInput.value) {
+        timeSlotMessage.textContent = 'Please select a date first.';
+        timeSlotMessage.style.display = 'block';
+        timeSelect.disabled = true;
+        timeSelect.innerHTML = '<option value="">Select a time</option>';
+        return;
+    }
+    timeSelect.innerHTML = '<option value="">Select a time</option>';
+    timeSelect.disabled = false;
+    timeSlotMessage.style.display = 'none';
+
+    try {
+      const response = await fetch(`/get-time-slots/?date=${dateInput.value}`, {
+        method: 'GET',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+            if (response.status === 403) {
+                console.error('CSRF token validation failed.');
+                timeSlotMessage.textContent = 'CSRF token error. Please refresh the page.';
+            } else {
+                timeSlotMessage.textContent = `HTTP error ${response.status}. Please try again.`;
+            }
+            timeSlotMessage.style.display = 'block';
+            timeSelect.disabled = true;
+            return;
+      }
+      const data = await response.json();
+      console.log('Time slots response:', data);
+
+      if (data.success) {
+        if (data.time_slots.length > 0) {
+          data.time_slots.forEach(slot => {
+            const option = document.createElement('option');
+            option.value = slot.time;
+            option.textContent = slot.display;
+            timeSelect.appendChild(option);
+          });
+        } else {
+          timeSlotMessage.textContent = 'No time slots available for this date.';
+          timeSlotMessage.style.display = 'block';
+          timeSelect.disabled = true;
+        }
+      } else {
+        console.error('Failed to fetch time slots:', data.message);
+        timeSlotMessage.textContent = 'Error loading time slots. Please try again.';
+        timeSlotMessage.style.display = 'block';
+        timeSelect.disabled = true;
+      }
+    } catch (error) {
+      console.error('Error fetching time slots:', error);
+      timeSlotMessage.textContent = 'An unexpected error occurred. Please try again.';
+      timeSlotMessage.style.display = 'block';
+      timeSelect.disabled = true;
+    }
+  }
+
+  // Update estimated cost based on selections
+  function updateEstimatedCost() {
+    const petSize = document.getElementById('pet-size').value;
+    const serviceType = document.getElementById('service-type').value;
+    const addOns = Array.from(document.querySelectorAll('#add-ons input[type="checkbox"]:checked')).map(cb => cb.value);
+    const basePrices = {
+      'puppy_bath': {'XS': 1600, 'S': 1600, 'M': 1600, 'L': 1600},
+      'wash_dry': {'XS': 950, 'S': 1450, 'M': 1800, 'L': 2250},
+      'wash_tidy': {'XS': 1200, 'S': 1870, 'M': 2350, 'L': 2600},
+      'full_groom': {'XS': 1500, 'S': 2060, 'M': 2500, 'L': 2950}
+    };
+    const baseDurations = {
+      'puppy_bath': {'XS': 60, 'S': 60, 'M': 60, 'L': 60},
+      'wash_dry': {'XS': 45, 'S': 60, 'M': 90, 'L': 120},
+      'wash_tidy': {'XS': 60, 'S': 75, 'M': 90, 'L': 120},
+      'full_groom': {'XS': 90, 'S': 120, 'M': 150, 'L': 210}
+    };
+    const addOnDurations = {'dematting': 15, 'deshedding': 15, 'nail_trim': 5, 'anal_gland': 5, 'teeth_brush': 5};
+    const addOnCost = {
+      'dematting': 500, 'deshedding': 500, 'special_shampoo': 500,
+      'flea_tick_shampoo': 500, 'nail_trim': 250, 'teeth_brush': 250, 'anal_gland': 600
+    };
+
+    let totalPrice = (basePrices[serviceType] && petSize) ? basePrices[serviceType][petSize] || 0 : 0;
+    let totalMinutes = (baseDurations[serviceType] && petSize) ? baseDurations[serviceType][petSize] || 0 : 0;
+
+    totalPrice += addOns.reduce((acc, addOn) => acc + (addOnCost[addOn] || 0), 0);
+    totalMinutes += addOns.reduce((acc, addOn) => acc + (addOnDurations[addOn] || 0), 0);
+
+    let totalDuration = '';
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    if (hours > 0) totalDuration += `${hours} hr`;
+    if (minutes > 0) totalDuration += (hours > 0 ? ' ' : '') + `${minutes} min`;
+    if (totalDuration === '') totalDuration = '0 min';
+
+    document.getElementById('estimated-time').textContent = totalDuration;
+    document.getElementById('estimated-cost').textContent = totalPrice > 0 ? `Rs ${totalPrice}` : 'Rs 0';
+    console.log(`Estimated: ${totalDuration} - Rs ${totalPrice}`);
+  }
+
+  // Update service description based on selection
+  function updateServiceDescription() {
+    const serviceType = document.getElementById('service-type').value;
+    const descriptionDiv = document.getElementById('service-description');
+    const descriptions = {
+      'puppy_bath': 'Includes: ✔ Double bath with mild puppy shampoo, ✔ Conditioning, ✔ Soft towel & low-heat dry, ✔ Nail clipping, ✔ Face trim, ✔ Sanitary area cleaning, ✔ Ear & eye cleaning, ✔ Light brushing, ✔ A calming grooming experience',
+      'wash_dry': 'Includes: ✔ Double bath & conditioner, ✔ Blow Dry, ✔ Ear & eye cleaning, ✔ Light brushing, ✔ Pet-safe cologne spritz',
+      'wash_tidy': 'Includes: ✔ Double bath & conditioner, ✔ Blow dry, ✔ Nail clipping, ✔ Sanitary area cleaning, ✔ Face & paw touch-up, ✔ Ear & eye cleaning, ✔ Full body brush, ✔ Pet-safe cologne spritz',
+      'full_groom': 'Includes: ✔ Double bath & conditioner, ✔ Blow dry, ✔ Nail Clipping, ✔ Sanitary trim & cleaning, ✔ Ear & Eye Cleaning, ✔ Pet-safe cologne spritz'
+    };
+
+    if (serviceType && descriptions[serviceType]) {
+      descriptionDiv.textContent = descriptions[serviceType];
+      descriptionDiv.style.display = 'block';
+    } else {
+      descriptionDiv.textContent = '';
+      descriptionDiv.style.display = 'none';
+    }
+  }
+
+  function showAgreementPopup() {
+    document.getElementById('agreementModal').style.display = 'block';
+  }
+
+  function closeAgreementPopup() {
+    document.getElementById('agreementModal').style.display = 'none';
+  }
+
+  function acceptAgreement() {
+    closeAgreementPopup();
+    submitBooking();
+  }
+
+  async function submitBooking() {
+    const errorMessage = document.getElementById('error-message');
+    const bookButton = document.getElementById('book-button');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    errorMessage.style.display = 'none';
+
+    const estimatedTime = document.getElementById('estimated-time')?.textContent || '';
+
+    const data = {
+      full_name: document.getElementById('customer-name').value || '',
+      contact_no: document.getElementById('phone-number').value || '',
+      email: document.getElementById('email').value || '',
+      pet_size: document.getElementById('pet-size').value,
+      service_type: document.getElementById('service-type').value,
+      add_ons: Array.from(document.querySelectorAll('#add-ons input[type="checkbox"]:checked')).map(cb => cb.value),
+      notes: document.getElementById('notes').value || '',
+      date_time: `${document.getElementById('booking-date').value} ${document.getElementById('time-select').value}`,
+      estimated_time: estimatedTime
+    };
+
+    if (!data.pet_size || !data.service_type || !data.date_time || data.date_time.includes('Select') || !data.full_name || !data.contact_no) {
+      errorMessage.textContent = 'Please fill all required fields and select a valid time.';
+      errorMessage.style.display = 'block';
+      return;
+    }
+
+    bookButton.disabled = true;
+    loadingSpinner.style.display = 'block'; // Show loader centered on screen
+
+    try {
+      const response = await fetch('/book-grooming-appointment/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      console.log('Booking response:', result);
+
+      if (result.success) {
+        if (result.qr_code && result.redirect_url) {
+          window.location.href = `${result.redirect_url}?qr_code=${encodeURIComponent(result.qr_code)}`;
+        }
+      } else {
+        errorMessage.textContent = result.message || 'An unexpected error occurred. Please try again.';
+        errorMessage.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      errorMessage.textContent = 'An unexpected error occurred. Please try again.';
+      errorMessage.style.display = 'block';
+    } finally {
+      bookButton.disabled = false;
+      loadingSpinner.style.display = 'none'; // Hide loader
+    }
+  }
+
+  function closeQrModal() {
+    document.getElementById('qrModal').style.display = 'none';
+  }
+
+  function downloadQRCode() {
+    const qrImage = document.getElementById('qr-code-image');
+    const link = document.createElement('a');
+    link.href = qrImage.src;
+    link.download = 'booking_qrcode.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // QR Code Handling on Page Load
+  window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const qrCodeData = urlParams.get('qr_code');
+    console.log('QR Code Data from URL:', qrCodeData); // Debug log
+    if (qrCodeData) {
+      try {
+        const decodedData = decodeURIComponent(qrCodeData);
+        const qrImage = document.getElementById('qr-code-image');
+        qrImage.src = 'data:image/png;base64,' + decodedData;
+        document.getElementById('qrModal').style.display = 'block';
+        console.log('QR Image src set to:', qrImage.src);
+      } catch (e) {
+        console.error('Error decoding QR code:', e);
+      }
+    }
+
+    // Initial load of other functionalities
+    updateTimeSlots();
+    updateEstimatedCost();
+    updateServiceDescription();
+  };
+
+  // Event listeners
+  document.getElementById('booking-date').addEventListener('change', updateTimeSlots);
+  ['pet-size', 'service-type', 'add-ons'].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.addEventListener('change', updateEstimatedCost);
+  });
+  document.getElementById('service-type').addEventListener('change', updateServiceDescription);
+</script>
+{% endblock content %}

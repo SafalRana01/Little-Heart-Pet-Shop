@@ -1,0 +1,235 @@
+{% load static %}
+<!-- Navigation Bar -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar {
+        background-color: #E6F0E3 !important;
+        padding: 1rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: padding 0.3s ease, background-color 0.3s ease;
+    }
+    .navbar.scrolled {
+        padding: 0.5rem 1rem;
+        background-color: #d3e0d1;
+    }
+    .navbar-brand img {
+        height: 60px;
+        margin-left: 0;
+        transition: height 0.3s ease;
+    }
+    .navbar.scrolled .navbar-brand img {
+        height: 40px;
+    }
+    .navbar-nav {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+    .nav-link {
+        color: #000 !important;
+        font-weight: 500;
+        margin: 0 10px;
+        padding: 0.5rem 1rem;
+        transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+        color: #555 !important;
+    }
+    .nav-link.active {
+        color: #ff6f61 !important;
+        font-weight: 600;
+        {% comment %} background-color: #d3e0d1; {% endcomment %}
+        border-radius: 0.25rem;
+    }
+    .dropdown-menu {
+        background-color: #E6F0E3;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 0;
+        animation: fadeIn 0.2s ease-in-out;
+        z-index: 1100; 
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-item {
+        color: #000;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .dropdown-item:hover {
+        background-color: #d3e0d1;
+        color: #333;
+    }
+    .navbar-icons {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+    }
+    .navbar-icons a {
+        color: #000;
+        margin-left: 15px;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+    .navbar-icons a:hover {
+        color: #555;
+    }
+    .hero-section {
+        height: 60vh;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    .hero-section h1 {
+        font-size: 3rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .hero-section .btn-primary {
+        background-color: #ff6f61;
+        border-color: #ff6f61;
+    }
+    .hero-section .btn-primary:hover {
+        background-color: #e65b50;
+        border-color: #e65b50;
+    }
+    .product-card {
+        transition: transform 0.3s;
+    }
+    .product-card:hover {
+        transform: scale(1.05);
+    }
+    .footer {
+        background-color: #343a40;
+        color: white;
+        padding: 2rem 0;
+    }
+
+    /* Mobile Responsiveness Enhancements */
+    @media (max-width: 991px) {
+        .navbar-brand img {
+            height: 40px;
+        }
+        .navbar-nav {
+            margin-left: 0;
+            flex-direction: column;
+            width: 100%;
+            background-color: #E6F0E3; 
+            padding: 1rem 0;
+        }
+        .nav-link {
+            padding: 0.75rem 1rem;
+            margin: 0;
+            text-align: left;
+            border-bottom: 1px solid #d3e0d1; 
+        }
+        .nav-link.active {
+            background-color: #d3e0d1;
+        }
+        .navbar-icons {
+            margin-left: 0;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            background-color: #E6F0E3;
+            border-top: 1px solid #d3e0d1;
+        }
+        .navbar-icons .dropdown {
+            width: 100%;
+        }
+        .dropdown-menu {
+            position: static;
+            float: none;
+            width: 100%;
+            box-shadow: none;
+            border: none;
+            border-radius: 0;
+            background-color: #d3e0d1; 
+        }
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+        }
+        .navbar {
+            padding: 0.5rem 1rem;
+        }
+        .navbar.scrolled {
+            padding: 0.25rem 1rem;
+        }
+        .navbar-collapse {
+            padding: 0; 
+        }
+        .navbar-toggler {
+            padding: 0.25rem 0.75rem;
+            font-size: 1.25rem;
+            border: 1px solid #d3e0d1;
+            border-radius: 0.25rem;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'Images/web_logo.png' %}" alt="Little Heart Pet Shop"> 
+        </a>
+        <!-- Toggler for Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Nav Links and Icons -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Nav Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' or request.path == '/home/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/grooming/' %}active{% endif %}" href="{% url 'grooming' %}">Grooming</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/contact/' %}active{% endif %}" href="{% url 'contact' %}">Contact Us</a>
+                </li>
+            </ul>
+            <!-- Right Icons and User Dropdown -->
+
+        </div>
+    </div>
+</nav>
+
+<!-- Bootstrap JS and Popper.js (required for dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- JavaScript for Scroll Effect -->
+<script>
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 150) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
