@@ -173,7 +173,7 @@ class CalendarViewNew(LoginRequiredMixin, generic.View):
         # pprint.pprint(event_list)
 
         # pprint.pprint(event_list)
-        print("booked_slots:", context["booked_slots"])
+        # print("booked_slots:", context["booked_slots"])
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):

@@ -465,14 +465,28 @@
 
     <label>Add-ons (Optional)</label>
     <div class="checkbox-group" id="add-ons">
-      <label><input type="checkbox" value="dematting"> De-matting (Rs 500+, +15 min)</label>
-      <label><input type="checkbox" value="deshedding"> De-shedding (Rs 500+, +15 min)</label>
-      <label><input type="checkbox" value="special_shampoo"> Special Shampoo (Rs 500)</label>
+      <div id="addon-dematting">
+        <label><input type="checkbox" value="dematting"> De-matting (Rs 500+, +15 min)</label>
+      </div>
+      <div id="addon-deshedding">
+        <label><input type="checkbox" value="deshedding"> De-shedding (Rs 500+, +15 min)</label>
+      </div>
+      <div id="addon-special_shampoo">
+        <label><input type="checkbox" value="special_shampoo"> Special Shampoo (Rs 500)</label>
+      </div>
       <em>Note: Special shampoo is used for pets with skin issues or allergies.</em>
-      <label><input type="checkbox" value="flea_tick_shampoo"> Flea & Tick Shampoo (Rs 500)</label>
-      <label><input type="checkbox" value="nail_trim"> Nail Trim (Rs 250, +5 min)</label>
-      <label><input type="checkbox" value="teeth_brush"> Teeth Brushing (Rs 250, +5 min)</label>
-      <label><input type="checkbox" value="anal_gland"> Anal Gland Expression (Rs 600, +5 min)</label>
+      <div id="addon-flea_tick_shampoo">
+        <label><input type="checkbox" value="flea_tick_shampoo"> Flea & Tick Shampoo (Rs 500)</label>
+      </div>
+      <div id="addon-nail_trim">
+        <label><input type="checkbox" value="nail_trim"> Nail Trim (Rs 250, +5 min)</label>
+      </div>
+      <div id="addon-teeth_brush">
+        <label><input type="checkbox" value="teeth_brush"> Teeth Brushing (Rs 250, +5 min)</label>
+      </div>
+      <div id="addon-anal_gland">
+        <label><input type="checkbox" value="anal_gland"> Anal Gland Expression (Rs 600, +5 min)</label>
+      </div>
     </div>
 
     <label>Notes (Medical Conditions, Behaviour)</label>
@@ -729,6 +743,41 @@
     console.log(`Estimated: ${totalDuration} - Rs ${totalPrice}`);
   }
 
+  // New function to update add-on visibility
+  function updateAddOnVisibility() {
+    const serviceType = document.getElementById('service-type').value;
+    let hiddenAddOns = [];
+
+    // Define which add-ons to hide based on the selected service
+    if (serviceType === "full_groom") {
+      hiddenAddOns = ["deshedding", "dematting", "nail_trim"];
+    } else if (serviceType === "puppy_bath") {
+      hiddenAddOns = ["deshedding", "dematting", "anal_gland", "nail_trim"];
+    } else {
+      hiddenAddOns = []; // Show all add-ons for other services
+    }
+
+    // List of all add-ons
+    const allAddOns = ["dematting", "deshedding", "special_shampoo", "flea_tick_shampoo", "nail_trim", "teeth_brush", "anal_gland"];
+
+    // Loop through all add-ons and show/hide based on the hidden list
+    allAddOns.forEach(key => {
+      const wrapper = document.getElementById(`addon-${key}`);
+      const checkbox = document.querySelector(`input[value="${key}"]`);
+      if (wrapper) {
+        if (hiddenAddOns.includes(key)) {
+          wrapper.style.display = "none";
+          if (checkbox) checkbox.checked = false; // Uncheck hidden add-ons
+        } else {
+          wrapper.style.display = "block";
+        }
+      }
+    });
+
+    // Update estimated cost after changing add-on visibility
+    updateEstimatedCost();
+  }
+
   // Update service description based on selection
   function updateServiceDescription() {
     const serviceType = document.getElementById('service-type').value;
@@ -747,6 +796,7 @@
       descriptionDiv.textContent = '';
       descriptionDiv.style.display = 'none';
     }
+    updateAddOnVisibility();
   }
 
   function showAgreementPopup() {
@@ -761,6 +811,7 @@
     closeAgreementPopup();
     submitBooking();
   }
+  
 
   async function submitBooking() {
     const errorMessage = document.getElementById('error-message');
