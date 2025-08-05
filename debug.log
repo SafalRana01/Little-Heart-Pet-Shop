@@ -7490,3 +7490,104 @@ INFO 2025-08-04 17:47:29,316 autoreload C:\Users\Safal\Downloads\New folder (11)
 INFO 2025-08-04 17:47:30,758 autoreload Watching for file changes with StatReloader
 INFO 2025-08-04 17:47:38,241 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
 INFO 2025-08-04 17:47:39,646 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:37:46,991 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:38:07,815 other_views New booking created for next month: 84
+INFO 2025-08-04 20:38:13,956 other_views Confirmation email sent for new booking 84
+WARNING 2025-08-04 20:39:10,451 log Bad Request: /calendarapp/next_day/84/
+INFO 2025-08-04 20:39:24,706 other_views Booking rescheduled to next day: 84
+INFO 2025-08-04 20:39:29,578 other_views Reschedule email sent for booking 84
+INFO 2025-08-04 20:41:06,459 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-04 20:41:08,182 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:41:24,130 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-04 20:41:25,578 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:41:55,584 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-04 20:41:57,069 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:41:58,577 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-04 20:41:59,927 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:42:41,429 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:43:01,194 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\__init__.py changed, reloading.
+INFO 2025-08-04 20:43:02,867 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:43:08,311 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\__init__.py changed, reloading.
+INFO 2025-08-04 20:43:09,884 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:43:29,930 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\dashboard.py changed, reloading.
+INFO 2025-08-04 20:43:31,571 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:43:33,030 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\dashboard.py changed, reloading.
+INFO 2025-08-04 20:43:34,378 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:45:48,365 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:45:50,064 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:46:24,113 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:46:25,732 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:46:41,415 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:46:43,058 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:46:48,506 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:46:50,046 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:47:04,480 other_views Booking rescheduled to next day: 84
+INFO 2025-08-04 20:47:10,021 other_views Reschedule email sent for booking 84
+INFO 2025-08-04 20:47:52,712 other_views Booking created: 85
+INFO 2025-08-04 20:47:57,626 other_views Confirmation email sent for booking 85
+INFO 2025-08-04 20:48:49,198 other_views New booking created for next month: 86
+INFO 2025-08-04 20:48:57,218 other_views Confirmation email sent for new booking 86
+WARNING 2025-08-04 20:49:24,659 log Bad Request: /calendarapp/next_month/43/
+INFO 2025-08-04 20:49:43,046 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:49:44,839 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:49:50,733 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:49:52,455 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:49:54,241 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-04 20:49:55,522 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:51:41,766 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\models\event_member.py changed, reloading.
+INFO 2025-08-04 20:51:43,552 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:51:58,137 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\models\__init__.py changed, reloading.
+INFO 2025-08-04 20:51:59,782 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:55:54,041 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:56:22,989 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\admin.py changed, reloading.
+INFO 2025-08-04 20:56:24,516 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:58:51,940 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 20:59:30,637 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:01:39,462 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\event_list.py changed, reloading.
+INFO 2025-08-04 21:01:41,257 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:02:12,251 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-04 21:02:13,735 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:03:01,997 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\forms.py changed, reloading.
+INFO 2025-08-04 21:03:03,718 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:03:19,506 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:03:48,486 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\dashboard.py changed, reloading.
+INFO 2025-08-04 21:03:49,952 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:03:58,594 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\models\unifiedbooking.py changed, reloading.
+INFO 2025-08-04 21:03:59,906 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:04:06,449 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\models\__init__.py changed, reloading.
+INFO 2025-08-04 21:04:07,866 autoreload Watching for file changes with StatReloader
+INFO 2025-08-04 21:05:17,674 other_views Booking created: 87
+INFO 2025-08-04 21:05:22,864 other_views Confirmation email sent for booking 87
+INFO 2025-08-05 10:00:05,150 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 12:00:43,954 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 12:23:57,809 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 12:33:45,999 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 12:36:42,112 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\dashboard.py changed, reloading.
+INFO 2025-08-05 12:36:43,772 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 12:48:38,137 autoreload Watching for file changes with StatReloader
+WARNING 2025-08-05 12:49:47,864 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 12:50:17,713 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 12:58:46,694 autoreload Watching for file changes with StatReloader
+WARNING 2025-08-05 12:59:02,355 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 13:04:02,431 autoreload Watching for file changes with StatReloader
+WARNING 2025-08-05 13:04:23,071 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 13:17:24,340 autoreload Watching for file changes with StatReloader
+WARNING 2025-08-05 13:23:37,597 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 13:26:43,211 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-05 13:27:00,787 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-08-05 13:27:33,817 other_views Booking created: 88
+INFO 2025-08-05 13:27:38,989 other_views Confirmation email sent for booking 88
+WARNING 2025-08-05 13:30:07,320 log Bad Request: /calendarapp/next_month/60/
+INFO 2025-08-05 13:30:40,638 other_views New booking created for next month: 89
+INFO 2025-08-05 13:30:45,357 other_views Confirmation email sent for new booking 89
+INFO 2025-08-05 13:30:52,487 other_views Booking rescheduled to next day: 89
+INFO 2025-08-05 13:30:56,815 other_views Reschedule email sent for booking 89
+WARNING 2025-08-05 13:31:00,683 log Bad Request: /calendarapp/next_day/89/
+INFO 2025-08-05 13:32:07,227 other_views Booking created: 90
+INFO 2025-08-05 13:32:11,695 other_views Confirmation email sent for booking 90
+INFO 2025-08-05 13:36:42,421 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
+INFO 2025-08-05 13:37:37,274 views Received booking data: {'full_name': 'Biwash Gurung', 'contact_no': '98000000', 'email': 'magarsafal61@gmail.com', 'pet_size': 'L', 'service_type': 'full_groom', 'add_ons': ['dematting', 'deshedding', 'special_shampoo', 'flea_tick_shampoo'], 'notes': '', 'date_time': '2025-08-05 13:45', 'estimated_time': '4 hr'}
+INFO 2025-08-05 13:58:20,429 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-05 13:58:22,750 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 13:58:25,886 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-05 13:58:26,953 autoreload Watching for file changes with StatReloader

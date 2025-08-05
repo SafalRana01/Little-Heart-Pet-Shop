@@ -94,6 +94,7 @@ Calendar{% endblock title %} {% block extracss %}
             <form method="post" id="eventForm">
               {% csrf_token %}
               <div class="modal-body">
+                <div id="slot-warning" style="display: none; color: red;"></div>
                 <!-- Size Dropdown -->
                 <div id="step-1">
                   <div class="form-row">
@@ -117,7 +118,7 @@ Calendar{% endblock title %} {% block extracss %}
                       </select>
                     </div>
                   </div>
-
+                  
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="booking_date">Booking Date:</label>
@@ -462,18 +463,40 @@ Calendar{% endblock title %} {% block extracss %}
           const warningDiv = document.getElementById('slot-warning');
           const saveButton = document.querySelector('button[type="submit"]');
 
-          const isBooked = bookedSlots.some(slot => {
-            return slot.booking_date === date && slot.booking_time === time;
+          if (!date || !time) {
+            console.warn("Date or time not selected:", { date, time });
+            if (warningDiv) {
+              warningDiv.style.display = 'block';
+              warningDiv.textContent = 'Please select a date and time.';
+            }
+            if (saveButton) saveButton.disabled = true;
+            return false;
+          }
+
+          const [hours, minutes] = time.split(':').map(Number);
+          const timeInMinutes = hours * 60 + minutes;
+          const bookedRanges = bookedTimeMap[date] || [];
+
+          const isBooked = bookedRanges.some(range => {
+            const overlaps = timeInMinutes >= range.start && timeInMinutes < range.end;
+            if (overlaps) {
+              console.log(`Selected time ${time} is booked (within ${formatMinutes(range.start)}-${formatMinutes(range.end)})`);
+            }
+            return overlaps;
           });
 
           if (isBooked) {
-            warningDiv.style.display = 'block';
-            warningDiv.textContent = '⚠️ This time slot is already booked. Please choose another time.';
+            if (warningDiv) {
+              warningDiv.style.display = 'block';
+              warningDiv.textContent = '⚠️ This time slot is already booked or overlaps with an existing booking.';
+            }
             if (saveButton) saveButton.disabled = true;
             return false;
           } else {
-            warningDiv.style.display = 'none';
-            warningDiv.textContent = '';
+            if (warningDiv) {
+              warningDiv.style.display = 'none';
+              warningDiv.textContent = '';
+            }
             if (saveButton) saveButton.disabled = false;
             return true;
           }
@@ -840,52 +863,99 @@ Calendar{% endblock title %} {% block extracss %}
 
 <script>
 document.getElementById("booking_date").addEventListener("change", function () {
+  console.log("Selected date:", this.value);
   populateBookingTimesForDate(this.value);
 });
 
-
-  // Convert ISO datetime objects into a usable format for lookup
-// Convert ISO datetime objects into a usable format for lookup
+// Convert booked slots into a map of unavailable time ranges
 function getBookedTimeMap(bookedSlots) {
+  console.log("Raw bookedSlots:", JSON.stringify(bookedSlots, null, 2));
   const bookedMap = {};
 
-  bookedSlots.forEach(slot => {
-    const dt = new Date(slot.date_time); // ISO datetime
-    const dateStr = dt.toISOString().slice(0, 10); // 'YYYY-MM-DD'
-    const timeStr = dt.toTimeString().slice(0, 5); // 'HH:MM'
+  if (!bookedSlots || bookedSlots.length === 0) {
+    console.warn("No booked slots provided.");
+    return bookedMap;
+  }
+
+  bookedSlots.forEach((slot, index) => {
+    if (!slot.date_time || slot.estimated_time === undefined) {
+      console.error(`Invalid slot at index ${index}:`, slot);
+      return;
+    }
+
+    // Handle naive datetime (e.g., "2025-08-08 09:15:00")
+    let startDt;
+    try {
+      startDt = new Date(slot.date_time.replace(' ', 'T') + '+05:45');
+      if (isNaN(startDt.getTime())) {
+        throw new Error("Invalid date format");
+      }
+    } catch (error) {
+      console.error(`Failed to parse date_time in slot ${index}:`, slot.date_time, error);
+      return;
+    }
+
+    const dateStr = startDt.toISOString().slice(0, 10); // 'YYYY-MM-DD'
+    const estimatedTime = parseInt(slot.estimated_time, 10) || 0;
+    const bufferTime = 15; // 15-minute buffer
+    const endDt = new Date(startDt.getTime() + (estimatedTime + bufferTime) * 60 * 1000);
 
     if (!bookedMap[dateStr]) {
-      bookedMap[dateStr] = new Set();
+      bookedMap[dateStr] = [];
     }
-    bookedMap[dateStr].add(timeStr);
+
+    const startMinutes = startDt.getHours() * 60 + startDt.getMinutes();
+    const endMinutes = endDt.getHours() * 60 + endDt.getMinutes();
+    bookedMap[dateStr].push({ start: startMinutes, end: endMinutes });
+    console.log(`Slot ${index}: ${dateStr} from ${formatMinutes(startMinutes)} to ${formatMinutes(endMinutes)} (estimated_time: ${estimatedTime} min)`);
   });
 
+  console.log("Constructed bookedTimeMap:", JSON.stringify(bookedMap, null, 2));
   return bookedMap;
+}
+
+// Helper function to format minutes for logging
+function formatMinutes(minutes) {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
 }
 
 const bookedTimeMap = getBookedTimeMap(bookedSlots);
 
 // Main function to populate time dropdown
 function populateBookingTimesForDate(selectedDate, defaultTime = null) {
+  console.log("Populating times for date:", selectedDate);
   const select = document.getElementById('booking_time');
   const previousSelectedTime = select.value || defaultTime;
   select.innerHTML = '';
 
-  const start = 9 * 60;
-  const end = 17 * 60;
-  const interval = 15;
+  const start = 9 * 60; // 9:00 AM in minutes
+  const end = 17 * 60; // 5:00 PM in minutes
+  const interval = 15; // 15-minute intervals
 
   let hasAvailable = false;
   let selectedTimeStillAvailable = false;
 
-  const bookedTimesForDate = bookedTimeMap[selectedDate] || new Set();
+  const bookedRanges = bookedTimeMap[selectedDate] || [];
+  console.log(`Booked ranges for ${selectedDate}:`, bookedRanges.map(range => ({
+    start: formatMinutes(range.start),
+    end: formatMinutes(range.end)
+  })));
 
   for (let mins = start; mins <= end; mins += interval) {
     const hours = Math.floor(mins / 60);
     const minutes = mins % 60;
     const time24 = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
-    const isBooked = bookedTimesForDate.has(time24);
+    // Check if the current time slot falls within any booked range
+    const isBooked = bookedRanges.some(range => {
+      const overlaps = mins >= range.start && mins < range.end;
+      if (overlaps) {
+        console.log(`Excluding ${time24} (within ${formatMinutes(range.start)}-${formatMinutes(range.end)})`);
+      }
+      return overlaps;
+    });
 
     if (!isBooked) {
       const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -911,12 +981,21 @@ function populateBookingTimesForDate(selectedDate, defaultTime = null) {
     } else {
       select.selectedIndex = 0;
     }
+    console.log("Available times populated:", Array.from(select.options).map(opt => opt.textContent));
     checkSlotAvailability?.();
   } else {
     const option = document.createElement('option');
     option.textContent = 'No available times';
     option.disabled = true;
     select.appendChild(option);
+    const warningDiv = document.getElementById('slot-warning');
+    if (warningDiv) {
+      warningDiv.style.display = 'block';
+      warningDiv.textContent = 'No available time slots for this date.';
+    }
+    const saveButton = document.querySelector('button[type="submit"]');
+    if (saveButton) saveButton.disabled = true;
+    console.log("No available times for", selectedDate);
   }
 }
 

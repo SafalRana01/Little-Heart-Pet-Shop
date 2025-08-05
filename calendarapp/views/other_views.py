@@ -166,14 +166,14 @@ class CalendarViewNew(LoginRequiredMixin, generic.View):
             # "events": event_list,
             'events': json.dumps(event_list),
             "events_month": UnifiedBooking.get_running_events(request.user),
-            "booked_slots": list(UnifiedBooking.objects.filter(is_deleted=False).values("date_time")),
+            "booked_slots": list(UnifiedBooking.objects.filter(is_deleted=False).values("date_time", "estimated_time")),
         }
 
         # import pprint
         # pprint.pprint(event_list)
 
         # pprint.pprint(event_list)
-
+        print("booked_slots:", context["booked_slots"])
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
