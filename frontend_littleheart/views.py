@@ -333,7 +333,9 @@ def book_grooming_appointment(request):
             msg['Subject'] = 'Your Grooming Booking Confirmation'
             msg['From'] = settings.EMAIL_HOST_USER
             msg['To'] = email or settings.DEFAULT_FROM_EMAIL
-
+            # msg['To'] = email
+            # msg['Bcc'] = "magarsafal16@gmail.com"
+            
             # HTML part with inline image
             msg.attach(MIMEText(html_message, 'html'))
 

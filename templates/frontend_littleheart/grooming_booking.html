@@ -742,7 +742,7 @@
     document.getElementById('estimated-cost').textContent = totalPrice > 0 ? `Rs ${totalPrice}` : 'Rs 0';
     console.log(`Estimated: ${totalDuration} - Rs ${totalPrice}`);
   }
-
+  
   // New function to update add-on visibility
   function updateAddOnVisibility() {
     const serviceType = document.getElementById('service-type').value;
@@ -811,7 +811,6 @@
     closeAgreementPopup();
     submitBooking();
   }
-  
 
   async function submitBooking() {
     const errorMessage = document.getElementById('error-message');

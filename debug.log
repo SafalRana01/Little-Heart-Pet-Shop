@@ -7605,3 +7605,74 @@ INFO 2025-08-05 16:18:00,292 views Email sent successfully for booking 91
 INFO 2025-08-05 16:18:00,516 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
 INFO 2025-08-05 16:21:17,423 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
 INFO 2025-08-05 16:21:18,716 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 16:21:52,379 other_views Booking rescheduled to next day: 91
+INFO 2025-08-05 16:21:57,082 other_views Reschedule email sent for booking 91
+INFO 2025-08-05 16:22:11,974 other_views New booking created for next month: 92
+INFO 2025-08-05 16:22:16,022 other_views Confirmation email sent for new booking 92
+INFO 2025-08-05 16:23:09,404 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
+INFO 2025-08-05 16:54:16,464 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 17:34:41,150 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 17:35:07,623 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
+INFO 2025-08-05 22:49:08,324 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 22:49:37,836 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
+INFO 2025-08-05 22:50:41,353 views Available time slots for 2025-08-06: [{'time': '09:00', 'display': '9:00 AM'}, {'time': '09:15', 'display': '9:15 AM'}, {'time': '09:30', 'display': '9:30 AM'}, {'time': '09:45', 'display': '9:45 AM'}, {'time': '10:00', 'display': '10:00 AM'}, {'time': '10:15', 'display': '10:15 AM'}, {'time': '10:30', 'display': '10:30 AM'}, {'time': '10:45', 'display': '10:45 AM'}, {'time': '11:00', 'display': '11:00 AM'}, {'time': '11:15', 'display': '11:15 AM'}, {'time': '11:30', 'display': '11:30 AM'}, {'time': '11:45', 'display': '11:45 AM'}, {'time': '12:00', 'display': '12:00 PM'}, {'time': '12:15', 'display': '12:15 PM'}, {'time': '12:30', 'display': '12:30 PM'}, {'time': '12:45', 'display': '12:45 PM'}, {'time': '13:00', 'display': '1:00 PM'}, {'time': '13:15', 'display': '1:15 PM'}, {'time': '13:30', 'display': '1:30 PM'}, {'time': '13:45', 'display': '1:45 PM'}, {'time': '14:00', 'display': '2:00 PM'}, {'time': '14:15', 'display': '2:15 PM'}, {'time': '14:30', 'display': '2:30 PM'}, {'time': '14:45', 'display': '2:45 PM'}, {'time': '15:00', 'display': '3:00 PM'}, {'time': '15:15', 'display': '3:15 PM'}, {'time': '15:30', 'display': '3:30 PM'}, {'time': '15:45', 'display': '3:45 PM'}, {'time': '16:00', 'display': '4:00 PM'}]
+INFO 2025-08-05 22:51:10,323 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
+INFO 2025-08-05 22:54:36,713 autoreload Watching for file changes with StatReloader
+INFO 2025-08-05 22:54:46,684 views Available time slots for 2025-08-05: [{'time': '13:45', 'display': '1:45 PM'}]
+INFO 2025-08-05 22:55:05,221 views Received booking data: {'full_name': 'Biwash Gurung', 'contact_no': '98000000', 'email': 'magarsafal16@gmail.com', 'pet_size': 'L', 'service_type': 'wash_dry', 'add_ons': ['dematting', 'deshedding'], 'notes': 'aSdf', 'date_time': '2025-08-05 13:45', 'estimated_time': '2 hr 30 min'}
+INFO 2025-08-17 09:21:53,265 autoreload Watching for file changes with StatReloader
+WARNING 2025-08-17 09:22:05,199 log Not Found: /favicon.ico
+INFO 2025-08-17 09:23:40,580 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:23:41,494 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:23:43,051 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:23:44,058 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:24:32,863 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:24:33,880 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:24:40,385 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:24:41,312 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:25:16,951 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:25:17,894 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:32:47,402 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:32:48,283 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:32:51,549 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:32:52,460 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:34:16,283 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:36:22,011 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\__init__.py changed, reloading.
+INFO 2025-08-17 09:36:22,805 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:37:47,024 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\__init__.py changed, reloading.
+INFO 2025-08-17 09:37:47,872 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:38:16,485 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:39:13,392 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-17 09:39:14,296 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:39:22,720 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:43:06,504 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\frontend_littleheart\views.py changed, reloading.
+INFO 2025-08-17 09:43:07,427 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:43:08,949 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\frontend_littleheart\views.py changed, reloading.
+INFO 2025-08-17 09:43:09,808 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:45:31,190 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:45:32,074 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:45:41,334 views Available time slots for 2025-08-17: [{'time': '09:00', 'display': '9:00 AM'}, {'time': '09:15', 'display': '9:15 AM'}, {'time': '09:30', 'display': '9:30 AM'}, {'time': '09:45', 'display': '9:45 AM'}, {'time': '10:00', 'display': '10:00 AM'}, {'time': '10:15', 'display': '10:15 AM'}, {'time': '10:30', 'display': '10:30 AM'}, {'time': '10:45', 'display': '10:45 AM'}, {'time': '11:00', 'display': '11:00 AM'}, {'time': '11:15', 'display': '11:15 AM'}, {'time': '11:30', 'display': '11:30 AM'}, {'time': '11:45', 'display': '11:45 AM'}, {'time': '12:00', 'display': '12:00 PM'}, {'time': '12:15', 'display': '12:15 PM'}, {'time': '12:30', 'display': '12:30 PM'}, {'time': '12:45', 'display': '12:45 PM'}, {'time': '13:00', 'display': '1:00 PM'}, {'time': '13:15', 'display': '1:15 PM'}, {'time': '13:30', 'display': '1:30 PM'}, {'time': '13:45', 'display': '1:45 PM'}, {'time': '14:00', 'display': '2:00 PM'}, {'time': '14:15', 'display': '2:15 PM'}, {'time': '14:30', 'display': '2:30 PM'}, {'time': '14:45', 'display': '2:45 PM'}, {'time': '15:00', 'display': '3:00 PM'}, {'time': '15:15', 'display': '3:15 PM'}, {'time': '15:30', 'display': '3:30 PM'}, {'time': '15:45', 'display': '3:45 PM'}, {'time': '16:00', 'display': '4:00 PM'}]
+INFO 2025-08-17 09:46:01,808 views Received booking data: {'full_name': 'Biwash Gurung', 'contact_no': '98000000', 'email': 'magarsafal16@gmail.com', 'pet_size': 'XS', 'service_type': 'wash_dry', 'add_ons': ['dematting', 'deshedding'], 'notes': 'sdfgh', 'date_time': '2025-08-17 09:15', 'estimated_time': '1 hr 15 min'}
+INFO 2025-08-17 09:46:01,821 views Booking processed for Biwash Gurung
+INFO 2025-08-17 09:46:01,821 views Booking object before save: {'_state': <django.db.models.base.ModelState object at 0x0000022D7766E2D0>, 'id': None, 'booking_type': '', 'user_id': None, 'full_name': 'Biwash Gurung', 'contact_no': '98000000', 'email': 'magarsafal16@gmail.com', 'size': None, 'pet_size': 'XS', 'service_type': 'wash_dry', 'add_ons': ['dematting', 'deshedding'], 'date_time': datetime.datetime(2025, 8, 17, 9, 15), 'notes': 'sdfgh', 'total_price': 1950, 'estimated_time': 75, 'status': 'approved', 'is_active': True, 'is_deleted': False, 'created_at': None}
+INFO 2025-08-17 09:46:01,832 views Booking saved: 93
+INFO 2025-08-17 09:46:02,138 views Generated QR code base64 length: 2556
+INFO 2025-08-17 09:46:06,917 views Email sent successfully for booking 93
+INFO 2025-08-17 09:46:07,009 views Available time slots for 2025-08-17: [{'time': '10:30', 'display': '10:30 AM'}, {'time': '10:45', 'display': '10:45 AM'}, {'time': '11:00', 'display': '11:00 AM'}, {'time': '11:15', 'display': '11:15 AM'}, {'time': '11:30', 'display': '11:30 AM'}, {'time': '11:45', 'display': '11:45 AM'}, {'time': '12:00', 'display': '12:00 PM'}, {'time': '12:15', 'display': '12:15 PM'}, {'time': '12:30', 'display': '12:30 PM'}, {'time': '12:45', 'display': '12:45 PM'}, {'time': '13:00', 'display': '1:00 PM'}, {'time': '13:15', 'display': '1:15 PM'}, {'time': '13:30', 'display': '1:30 PM'}, {'time': '13:45', 'display': '1:45 PM'}, {'time': '14:00', 'display': '2:00 PM'}, {'time': '14:15', 'display': '2:15 PM'}, {'time': '14:30', 'display': '2:30 PM'}, {'time': '14:45', 'display': '2:45 PM'}, {'time': '15:00', 'display': '3:00 PM'}, {'time': '15:15', 'display': '3:15 PM'}, {'time': '15:30', 'display': '3:30 PM'}, {'time': '15:45', 'display': '3:45 PM'}, {'time': '16:00', 'display': '4:00 PM'}]
+INFO 2025-08-17 09:47:19,451 other_views Booking rescheduled to next day: 93
+ERROR 2025-08-17 09:47:19,474 other_views Error in next_day view for booking 93: name 'email' is not defined
+ERROR 2025-08-17 09:47:19,478 log Internal Server Error: /calendarapp/next_day/93/
+INFO 2025-08-17 09:47:27,640 other_views New booking created for next month: 94
+ERROR 2025-08-17 09:47:27,664 log Internal Server Error: /calendarapp/next_month/93/
+INFO 2025-08-17 09:47:46,291 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\urls.py changed, reloading.
+INFO 2025-08-17 09:47:47,238 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:47:50,668 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\other_views.py changed, reloading.
+INFO 2025-08-17 09:47:51,651 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:47:55,934 autoreload C:\Users\Safal\Downloads\New folder (11)\Little_Heart_Pet_Shop\calendarapp\views\__init__.py changed, reloading.
+INFO 2025-08-17 09:47:56,793 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 09:48:17,274 other_views Booking rescheduled to next day: 90
+ERROR 2025-08-17 09:48:17,327 other_views Error in next_day view for booking 90: name 'email' is not defined
+ERROR 2025-08-17 09:48:17,329 log Internal Server Error: /calendarapp/next_day/90/
+WARNING 2025-08-17 09:48:22,565 log Bad Request: /calendarapp/next_day/90/
+INFO 2025-08-17 09:55:58,986 autoreload Watching for file changes with StatReloader
+INFO 2025-08-17 10:28:56,180 autoreload Watching for file changes with StatReloader
